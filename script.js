@@ -10,3 +10,7 @@ function registerPatient() {
 
     alert("Patient " + name + " registered successfully!");
 }
+function bookAppointment() {
+    let name = document.getElementById("appointmentName").value;
+    alert("Appointment booked successfully for " + name + "!");
+}
