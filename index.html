@@ -61,6 +61,37 @@
     <button type="submit">Register Patient</button>
 
 </form>
+<h2>Our Doctors</h2>
+<h2>Book an Appointment</h2>
+
+<form onsubmit="bookAppointment(); return false;">
+
+    <label>Patient Name:</label><br>
+    <input type="text" id="appointmentName" required><br><br>
+
+    <label>Select Doctor:</label><br>
+    <select id="appointmentDoctor" required>
+        <option value="">Choose Doctor</option>
+        <option>Dr. Arun</option>
+        <option>Dr. Priya</option>
+        <option>Dr. Kumar</option>
+    </select><br><br>
+
+    <label>Appointment Date:</label><br>
+    <input type="date" id="appointmentDate" required><br><br>
+
+    <label>Appointment Time:</label><br>
+    <input type="time" id="appointmentTime" required><br><br>
+
+    <button type="submit">Book Appointment</button>
+
+</form>
+
+<ul>
+    <li>Dr. Arun - General Physician</li>
+    <li>Dr. Priya - Cardiologist</li>
+    <li>Dr. Kumar - Orthopedic Specialist</li>
+</ul>
     <h2>Contact Us</h2>
 
     <p>Email: hospital@example.com</p>
