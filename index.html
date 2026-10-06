@@ -74,7 +74,8 @@
 <button onclick="searchPatient()">Search</button>
 
 <p id="searchResult"></p>
-<h2>Our Doctors</h2>
+<section id="doctors">
+    <h2>Our Doctors</h2>
 
 <ul>
     <li>
@@ -92,8 +93,9 @@
         Phone: 9876543213
     </li>
 </ul>
-
-<h2>Book an Appointment</h2>
+</section>
+<section id="appointment">
+    <h2>Book an Appointment</h2>
 
 <form onsubmit="bookAppointment(); return false;">
 
@@ -125,10 +127,12 @@
 
     <div id="recordList"></div>
 </section>
+    <section id="contact">
     <h2>Contact Us</h2>
 
     <p>Email: hospital@example.com</p>
     <p>Phone: 9876543210</p>
+</section>
 <script src="script.js"></script>
 </body>
 </html>
