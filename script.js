@@ -4,8 +4,22 @@ function welcomeMessage() {
 function registerPatient() {
     let name = document.getElementById("patientName").value;
     let phone = document.getElementById("phone").value;
+    let age = document.getElementById("age").value;
+    let gender = document.getElementById("gender").value;
+    let disease = document.getElementById("disease").value;
+    let doctor = document.getElementById("doctor").value;
 
-    alert("Patient " + name + " registered successfully!\nPhone: " + phone);
+    let record =
+        "Patient Name: " + name + "\n" +
+        "Phone: " + phone + "\n" +
+        "Age: " + age + "\n" +
+        "Gender: " + gender + "\n" +
+        "Disease: " + disease + "\n" +
+        "Doctor: " + doctor;
+
+    localStorage.setItem("patientRecords", record);
+
+    alert("Patient " + name + " registered successfully!");
 }
 function bookAppointment() {
     let name = document.getElementById("appointmentName").value;
