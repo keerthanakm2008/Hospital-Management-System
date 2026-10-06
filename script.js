@@ -101,3 +101,31 @@ function deleteRecord(index) {
 
     viewRecords();
 }
+function editRecord(index) {
+    let records = JSON.parse(localStorage.getItem("patientRecords")) || [];
+    let record = records[index];
+
+    let name = prompt("Enter Patient Name:", record.name);
+    let phone = prompt("Enter Phone:", record.phone);
+    let age = prompt("Enter Age:", record.age);
+    let gender = prompt("Enter Gender:", record.gender);
+    let disease = prompt("Enter Disease:", record.disease);
+    let doctor = prompt("Enter Doctor:", record.doctor);
+
+    if (name && phone && age && gender && disease && doctor) {
+        records[index] = {
+            name: name,
+            phone: phone,
+            age: age,
+            gender: gender,
+            disease: disease,
+            doctor: doctor
+        };
+
+        localStorage.setItem("patientRecords", JSON.stringify(records));
+
+        alert("Patient record updated successfully!");
+
+        viewRecords();
+    }
+}
