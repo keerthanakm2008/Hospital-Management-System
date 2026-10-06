@@ -31,3 +31,13 @@ function searchPatient() {
             "Patient search completed for: " + name;
     }
 }
+function loginUser() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if (username === "admin" && password === "1234") {
+        alert("Login successful! Welcome " + username);
+    } else {
+        alert("Invalid username or password!");
+    }
+}
