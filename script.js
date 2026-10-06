@@ -3,8 +3,9 @@ function welcomeMessage() {
 }
 function registerPatient() {
     let name = document.getElementById("patientName").value;
+    let phone = document.getElementById("phone").value;
 
-    alert("Patient " + name + " registered successfully!");
+    alert("Patient " + name + " registered successfully!\nPhone: " + phone);
 }
 function bookAppointment() {
     let name = document.getElementById("appointmentName").value;
