@@ -129,3 +129,14 @@ function editRecord(index) {
         viewRecords();
     }
 }
+footer {
+    background-color: #0d47a1;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+footer p {
+    margin: 5px;
+}
