@@ -41,3 +41,14 @@ function loginUser() {
         alert("Invalid username or password!");
     }
 }
+function viewRecords() {
+    let records = localStorage.getItem("patientRecords");
+
+    if (records) {
+        document.getElementById("recordList").innerHTML =
+            "<h3>Patient Records</h3><pre>" + records + "</pre>";
+    } else {
+        document.getElementById("recordList").innerHTML =
+            "<p>No patient records found.</p>";
+    }
+}
