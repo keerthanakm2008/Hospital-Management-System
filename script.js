@@ -11,3 +11,21 @@ function bookAppointment() {
     let name = document.getElementById("appointmentName").value;
     alert("Appointment booked successfully for " + name + "!");
 }
+function bookAppointment() {
+    let name = document.getElementById("appointmentName").value;
+    alert("Appointment booked successfully for " + name + "!");
+}
+
+
+// Search Patient
+function searchPatient() {
+    let name = document.getElementById("searchPatient").value;
+
+    if (name === "") {
+        document.getElementById("searchResult").innerText =
+            "Please enter patient name.";
+    } else {
+        document.getElementById("searchResult").innerText =
+            "Patient search completed for: " + name;
+    }
+}
