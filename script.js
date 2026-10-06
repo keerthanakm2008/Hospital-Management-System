@@ -80,9 +80,24 @@ function viewRecords() {
             "Age: " + record.age + "<br>" +
             "Gender: " + record.gender + "<br>" +
             "Disease: " + record.disease + "<br>" +
-            "Doctor: " + record.doctor +
+            "Doctor: " + record.doctor + "<br><br>" +
+
+            "<button onclick='deleteRecord(" + index + ")'>" +
+            "Delete Record</button>" +
+
             "<hr></div>";
     });
 
     document.getElementById("recordList").innerHTML = output;
+}
+function deleteRecord(index) {
+    let records = JSON.parse(localStorage.getItem("patientRecords")) || [];
+
+    records.splice(index, 1);
+
+    localStorage.setItem("patientRecords", JSON.stringify(records));
+
+    alert("Patient record deleted successfully!");
+
+    viewRecords();
 }
