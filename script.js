@@ -9,11 +9,13 @@ function registerPatient() {
 }
 function bookAppointment() {
     let name = document.getElementById("appointmentName").value;
-    alert("Appointment booked successfully for " + name + "!");
-}
-function bookAppointment() {
-    let name = document.getElementById("appointmentName").value;
-    alert("Appointment booked successfully for " + name + "!");
+    let phone = document.getElementById("appointmentPhone").value;
+
+    alert(
+        "Appointment booked successfully!\n" +
+        "Patient Name: " + name + "\n" +
+        "Phone Number: " + phone
+    );
 }
 
 
