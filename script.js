@@ -9,15 +9,20 @@ function registerPatient() {
     let disease = document.getElementById("disease").value;
     let doctor = document.getElementById("doctor").value;
 
-    let record =
-        "Patient Name: " + name + "\n" +
-        "Phone: " + phone + "\n" +
-        "Age: " + age + "\n" +
-        "Gender: " + gender + "\n" +
-        "Disease: " + disease + "\n" +
-        "Doctor: " + doctor;
+    let newRecord = {
+        name: name,
+        phone: phone,
+        age: age,
+        gender: gender,
+        disease: disease,
+        doctor: doctor
+    };
 
-    localStorage.setItem("patientRecords", record);
+    let records = JSON.parse(localStorage.getItem("patientRecords")) || [];
+
+    records.push(newRecord);
+
+    localStorage.setItem("patientRecords", JSON.stringify(records));
 
     alert("Patient " + name + " registered successfully!");
 }
@@ -56,13 +61,28 @@ function loginUser() {
     }
 }
 function viewRecords() {
-    let records = localStorage.getItem("patientRecords");
+    let records = JSON.parse(localStorage.getItem("patientRecords")) || [];
 
-    if (records) {
-        document.getElementById("recordList").innerHTML =
-            "<h3>Patient Records</h3><pre>" + records + "</pre>";
-    } else {
+    if (records.length === 0) {
         document.getElementById("recordList").innerHTML =
             "<p>No patient records found.</p>";
+        return;
     }
+
+    let output = "<h3>Patient Records</h3>";
+
+    records.forEach(function(record, index) {
+        output +=
+            "<div>" +
+            "<b>Patient " + (index + 1) + "</b><br>" +
+            "Name: " + record.name + "<br>" +
+            "Phone: " + record.phone + "<br>" +
+            "Age: " + record.age + "<br>" +
+            "Gender: " + record.gender + "<br>" +
+            "Disease: " + record.disease + "<br>" +
+            "Doctor: " + record.doctor +
+            "<hr></div>";
+    });
+
+    document.getElementById("recordList").innerHTML = output;
 }
