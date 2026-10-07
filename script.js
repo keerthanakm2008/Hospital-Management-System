@@ -1,516 +1,335 @@
-/* ================================
-Hospital Management System
-JavaScript
-================================ */
-
-/* ================================
-DATA STORAGE
-================================ */
-
 let patients = JSON.parse(localStorage.getItem("patients")) || [];
 let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 
-/* ================================
-PAGE LOAD
-================================ */
-
 document.addEventListener("DOMContentLoaded", function () {
-
-```
-updateDashboard();
-
-displayRecords();
-```
-
+    updateDashboard();
+    displayRecords();
 });
 
-/* ================================
-PATIENT REGISTRATION
-================================ */
+
+// ================================
+// PATIENT REGISTRATION
+// ================================
 
 function registerPatient(event) {
+    event.preventDefault();
 
-```
-event.preventDefault();
+    let name = document.getElementById("patientName").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let age = document.getElementById("age").value;
+    let gender = document.getElementById("gender").value;
+    let disease = document.getElementById("disease").value.trim();
+    let doctor = document.getElementById("doctor").value;
 
-let name = document.getElementById("patientName").value.trim();
-let phone = document.getElementById("phone").value.trim();
-let age = document.getElementById("age").value;
-let gender = document.getElementById("gender").value;
-let disease = document.getElementById("disease").value.trim();
-let doctor = document.getElementById("doctor").value;
+    if (
+        name === "" ||
+        phone === "" ||
+        age === "" ||
+        gender === "" ||
+        disease === "" ||
+        doctor === ""
+    ) {
+        showMessage(
+            "patientMessage",
+            "Please fill in all patient details.",
+            "error"
+        );
+        return;
+    }
 
-if (
-    name === "" ||
-    phone === "" ||
-    age === "" ||
-    gender === "" ||
-    disease === "" ||
-    doctor === ""
-) {
-    showMessage(
-        "patientMessage",
-        "Please fill in all patient details.",
-        "error"
+    let patient = {
+        id: Date.now(),
+        name: name,
+        phone: phone,
+        age: age,
+        gender: gender,
+        disease: disease,
+        doctor: doctor,
+        registeredDate: new Date().toLocaleDateString()
+    };
+
+    patients.push(patient);
+
+    localStorage.setItem(
+        "patients",
+        JSON.stringify(patients)
     );
 
-    return;
+    document.getElementById("patientMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Patient Registered Successfully!</h3>
+            <p><strong>Patient ID:</strong> ${patient.id}</p>
+            <p><strong>Name:</strong> ${patient.name}</p>
+            <p><strong>Phone:</strong> ${patient.phone}</p>
+            <p><strong>Age:</strong> ${patient.age}</p>
+            <p><strong>Gender:</strong> ${patient.gender}</p>
+            <p><strong>Disease:</strong> ${patient.disease}</p>
+            <p><strong>Doctor:</strong> ${patient.doctor}</p>
+            <p><strong>Registered Date:</strong> ${patient.registeredDate}</p>
+        </div>
+    `;
+
+    document.querySelector("#patients form").reset();
+
+    updateDashboard();
+    displayRecords();
 }
 
 
-/* Create patient object */
-
-let patient = {
-
-    id: Date.now(),
-
-    name: name,
-
-    phone: phone,
-
-    age: age,
-
-    gender: gender,
-
-    disease: disease,
-
-    doctor: doctor,
-
-    registeredDate: new Date().toLocaleDateString()
-
-};
-
-
-/* Save patient */
-
-patients.push(patient);
-
-localStorage.setItem(
-    "patients",
-    JSON.stringify(patients)
-);
-
-
-/* Success message */
-
-document.getElementById("patientMessage").innerHTML = `
-
-    <div class="success-message">
-
-        <h3>✅ Patient Registered Successfully!</h3>
-
-        <p><strong>Patient ID:</strong> ${patient.id}</p>
-
-        <p><strong>Name:</strong> ${patient.name}</p>
-
-        <p><strong>Phone:</strong> ${patient.phone}</p>
-
-        <p><strong>Age:</strong> ${patient.age}</p>
-
-        <p><strong>Gender:</strong> ${patient.gender}</p>
-
-        <p><strong>Disease:</strong> ${patient.disease}</p>
-
-        <p><strong>Doctor:</strong> ${patient.doctor}</p>
-
-        <p><strong>Registered Date:</strong> ${patient.registeredDate}</p>
-
-    </div>
-
-`;
-
-
-/* Clear form */
-
-document.querySelector("#patients form").reset();
-
-
-/* Update dashboard */
-
-updateDashboard();
-
-displayRecords();
-```
-
-}
-
-/* ================================
-SEARCH PATIENT
-================================ */
+// ================================
+// SEARCH PATIENT
+// ================================
 
 function searchPatient() {
+    let searchName = document
+        .getElementById("searchPatient")
+        .value
+        .trim()
+        .toLowerCase();
 
-```
-let searchName =
-    document.getElementById("searchPatient").value
-    .trim()
-    .toLowerCase();
+    let result = document.getElementById("searchResult");
 
-let result =
-    document.getElementById("searchResult");
+    if (searchName === "") {
+        result.innerHTML = `
+            <div class="error-message">
+                Please enter a patient name.
+            </div>
+        `;
+        return;
+    }
 
+    let foundPatients = patients.filter(function (patient) {
+        return patient.name
+            .toLowerCase()
+            .includes(searchName);
+    });
 
-if (searchName === "") {
+    if (foundPatients.length === 0) {
+        result.innerHTML = `
+            <div class="error-message">
+                ❌ No patient found with the name
+                "<strong>${searchName}</strong>".
+            </div>
+        `;
+        return;
+    }
 
-    result.innerHTML = `
-        <div class="error-message">
-            Please enter a patient name.
-        </div>
-    `;
-
-    return;
+    result.innerHTML = foundPatients.map(function (patient) {
+        return `
+            <div class="record-item">
+                <h3>👤 ${patient.name}</h3>
+                <p><strong>Patient ID:</strong> ${patient.id}</p>
+                <p><strong>Phone:</strong> ${patient.phone}</p>
+                <p><strong>Age:</strong> ${patient.age}</p>
+                <p><strong>Gender:</strong> ${patient.gender}</p>
+                <p><strong>Disease:</strong> ${patient.disease}</p>
+                <p><strong>Doctor:</strong> ${patient.doctor}</p>
+            </div>
+        `;
+    }).join("");
 }
 
 
-let foundPatients = patients.filter(function (patient) {
-
-    return patient.name
-        .toLowerCase()
-        .includes(searchName);
-
-});
-
-
-if (foundPatients.length === 0) {
-
-    result.innerHTML = `
-        <div class="error-message">
-            ❌ No patient found with the name
-            "<strong>${searchName}</strong>".
-        </div>
-    `;
-
-    return;
-}
-
-
-result.innerHTML = foundPatients.map(function (patient) {
-
-    return `
-
-        <div class="record-item">
-
-            <h3>👤 ${patient.name}</h3>
-
-            <p><strong>Patient ID:</strong> ${patient.id}</p>
-
-            <p><strong>Phone:</strong> ${patient.phone}</p>
-
-            <p><strong>Age:</strong> ${patient.age}</p>
-
-            <p><strong>Gender:</strong> ${patient.gender}</p>
-
-            <p><strong>Disease:</strong> ${patient.disease}</p>
-
-            <p><strong>Doctor:</strong> ${patient.doctor}</p>
-
-        </div>
-
-    `;
-
-}).join("");
-```
-
-}
-
-/* ================================
-BOOK APPOINTMENT
-================================ */
+// ================================
+// BOOK APPOINTMENT
+// ================================
 
 function bookAppointment(event) {
+    event.preventDefault();
 
-```
-event.preventDefault();
+    let name = document
+        .getElementById("appointmentName")
+        .value
+        .trim();
 
+    let doctor = document
+        .getElementById("appointmentDoctor")
+        .value;
 
-let name =
-    document.getElementById("appointmentName")
-    .value
-    .trim();
+    let date = document
+        .getElementById("appointmentDate")
+        .value;
 
-let doctor =
-    document.getElementById("appointmentDoctor")
-    .value;
+    let time = document
+        .getElementById("appointmentTime")
+        .value;
 
-let date =
-    document.getElementById("appointmentDate")
-    .value;
+    if (
+        name === "" ||
+        doctor === "" ||
+        date === "" ||
+        time === ""
+    ) {
+        showMessage(
+            "appointmentMessage",
+            "Please fill in all appointment details.",
+            "error"
+        );
+        return;
+    }
 
-let time =
-    document.getElementById("appointmentTime")
-    .value;
+    let appointment = {
+        id: Date.now(),
+        patientName: name,
+        doctor: doctor,
+        date: date,
+        time: time
+    };
 
+    appointments.push(appointment);
 
-if (
-    name === "" ||
-    doctor === "" ||
-    date === "" ||
-    time === ""
-) {
-
-    showMessage(
-        "appointmentMessage",
-        "Please fill in all appointment details.",
-        "error"
+    localStorage.setItem(
+        "appointments",
+        JSON.stringify(appointments)
     );
 
-    return;
+    document.getElementById("appointmentMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Appointment Booked Successfully!</h3>
+            <p><strong>Appointment ID:</strong> ${appointment.id}</p>
+            <p><strong>Patient:</strong> ${appointment.patientName}</p>
+            <p><strong>Doctor:</strong> ${appointment.doctor}</p>
+            <p><strong>Date:</strong> ${appointment.date}</p>
+            <p><strong>Time:</strong> ${appointment.time}</p>
+        </div>
+    `;
+
+    document.querySelector("#appointment form").reset();
+
+    updateDashboard();
 }
 
 
-/* Create appointment */
-
-let appointment = {
-
-    id: Date.now(),
-
-    patientName: name,
-
-    doctor: doctor,
-
-    date: date,
-
-    time: time
-
-};
-
-
-/* Save appointment */
-
-appointments.push(appointment);
-
-localStorage.setItem(
-    "appointments",
-    JSON.stringify(appointments)
-);
-
-
-/* Success message */
-
-document.getElementById("appointmentMessage").innerHTML = `
-
-    <div class="success-message">
-
-        <h3>✅ Appointment Booked Successfully!</h3>
-
-        <p><strong>Appointment ID:</strong> ${appointment.id}</p>
-
-        <p><strong>Patient:</strong> ${appointment.patientName}</p>
-
-        <p><strong>Doctor:</strong> ${appointment.doctor}</p>
-
-        <p><strong>Date:</strong> ${appointment.date}</p>
-
-        <p><strong>Time:</strong> ${appointment.time}</p>
-
-    </div>
-
-`;
-
-
-/* Clear form */
-
-document.querySelector("#appointment form").reset();
-
-
-/* Update dashboard */
-
-updateDashboard();
-```
-
-}
-
-/* ================================
-VIEW PATIENT RECORDS
-================================ */
+// ================================
+// VIEW RECORDS
+// ================================
 
 function viewRecords() {
-
-```
-displayRecords();
-```
-
+    displayRecords();
 }
 
-/* ================================
-DISPLAY RECORDS
-================================ */
+
+// ================================
+// DISPLAY RECORDS
+// ================================
 
 function displayRecords() {
+    let recordList = document.getElementById("recordList");
 
-```
-let recordList =
-    document.getElementById("recordList");
+    if (!recordList) {
+        return;
+    }
 
-
-if (!recordList) {
-    return;
-}
-
-
-if (patients.length === 0) {
+    if (patients.length === 0) {
+        recordList.innerHTML = `
+            <div class="error-message">
+                No patient records available yet.
+                Please register a patient first.
+            </div>
+        `;
+        return;
+    }
 
     recordList.innerHTML = `
-
-        <div class="error-message">
-
-            No patient records available yet.
-
-            Please register a patient first.
-
-        </div>
-
+        <h3>📋 Registered Patient Records</h3>
+        <p>Total Patients: <strong>${patients.length}</strong></p>
     `;
 
-    return;
+    patients.forEach(function (patient) {
+        recordList.innerHTML += `
+            <div class="record-item">
+                <h3>👤 ${patient.name}</h3>
+
+                <p>
+                    <strong>Patient ID:</strong>
+                    ${patient.id}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${patient.phone}
+                </p>
+
+                <p>
+                    <strong>Age:</strong>
+                    ${patient.age}
+                </p>
+
+                <p>
+                    <strong>Gender:</strong>
+                    ${patient.gender}
+                </p>
+
+                <p>
+                    <strong>Disease:</strong>
+                    ${patient.disease}
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    ${patient.doctor}
+                </p>
+
+                <p>
+                    <strong>Registered Date:</strong>
+                    ${patient.registeredDate}
+                </p>
+            </div>
+        `;
+    });
 }
 
 
-recordList.innerHTML = `
-
-    <h3>📋 Registered Patient Records</h3>
-
-    <p>Total Patients: <strong>${patients.length}</strong></p>
-
-`;
-
-
-patients.forEach(function (patient) {
-
-    recordList.innerHTML += `
-
-        <div class="record-item">
-
-            <h3>👤 ${patient.name}</h3>
-
-            <p>
-                <strong>Patient ID:</strong>
-                ${patient.id}
-            </p>
-
-            <p>
-                <strong>Phone:</strong>
-                ${patient.phone}
-            </p>
-
-            <p>
-                <strong>Age:</strong>
-                ${patient.age}
-            </p>
-
-            <p>
-                <strong>Gender:</strong>
-                ${patient.gender}
-            </p>
-
-            <p>
-                <strong>Disease:</strong>
-                ${patient.disease}
-            </p>
-
-            <p>
-                <strong>Doctor:</strong>
-                ${patient.doctor}
-            </p>
-
-            <p>
-                <strong>Registered Date:</strong>
-                ${patient.registeredDate}
-            </p>
-
-        </div>
-
-    `;
-
-});
-```
-
-}
-
-/* ================================
-DASHBOARD
-================================ */
+// ================================
+// DASHBOARD
+// ================================
 
 function updateDashboard() {
+    let patientCount =
+        document.getElementById("patientCount");
 
-```
-let patientCount =
-    document.getElementById("patientCount");
+    let appointmentCount =
+        document.getElementById("appointmentCount");
 
-let appointmentCount =
-    document.getElementById("appointmentCount");
+    let recordCount =
+        document.getElementById("recordCount");
 
-let recordCount =
-    document.getElementById("recordCount");
+    if (patientCount) {
+        patientCount.textContent = patients.length;
+    }
 
+    if (appointmentCount) {
+        appointmentCount.textContent = appointments.length;
+    }
 
-if (patientCount) {
-
-    patientCount.textContent =
-        patients.length;
-
+    if (recordCount) {
+        recordCount.textContent = patients.length;
+    }
 }
 
 
-if (appointmentCount) {
+// ================================
+// MESSAGE FUNCTION
+// ================================
 
-    appointmentCount.textContent =
-        appointments.length;
+function showMessage(elementId, message, type) {
+    let element = document.getElementById(elementId);
 
-}
+    if (!element) {
+        return;
+    }
 
-
-if (recordCount) {
-
-    recordCount.textContent =
-        patients.length;
-
-}
-```
-
-}
-
-/* ================================
-MESSAGE FUNCTION
-================================ */
-
-function showMessage(
-elementId,
-message,
-type
-) {
-
-```
-let element =
-    document.getElementById(elementId);
-
-
-if (!element) {
-    return;
-}
-
-
-if (type === "success") {
-
-    element.innerHTML = `
-
-        <div class="success-message">
-            ${message}
-        </div>
-
-    `;
-
-} else {
-
-    element.innerHTML = `
-
-        <div class="error-message">
-            ${message}
-        </div>
-
-    `;
-
-}
-
-
+    if (type === "success") {
+        element.innerHTML = `
+            <div class="success-message">
+                ${message}
+            </div>
+        `;
+    } else {
+        element.innerHTML = `
+            <div class="error-message">
+                ${message}
+            </div>
+        `;
+    }
 }
