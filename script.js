@@ -28,12 +28,16 @@ function registerPatient() {
 }
 function bookAppointment() {
     let name = document.getElementById("appointmentName").value;
-    let phone = document.getElementById("appointmentPhone").value;
+    let doctor = document.getElementById("appointmentDoctor").value;
+    let date = document.getElementById("appointmentDate").value;
+    let time = document.getElementById("appointmentTime").value;
 
     alert(
-        "Appointment booked successfully!\n" +
+        "Appointment booked successfully!\n\n" +
         "Patient Name: " + name + "\n" +
-        "Phone Number: " + phone
+        "Doctor: " + doctor + "\n" +
+        "Date: " + date + "\n" +
+        "Time: " + time
     );
 }
 
