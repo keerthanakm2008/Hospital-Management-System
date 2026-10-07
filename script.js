@@ -1,5 +1,3 @@
-alert("script.js loaded successfully!");
-
 function registerPatient(event) {
     event.preventDefault();
 
