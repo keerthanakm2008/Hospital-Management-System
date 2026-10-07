@@ -1,4 +1,6 @@
-function registerPatient() {
+function registerPatient(event) {
+    event.preventDefault();
+
     let name = document.getElementById("patientName").value;
     let phone = document.getElementById("phone").value;
     let age = document.getElementById("age").value;
@@ -30,7 +32,9 @@ function searchPatient() {
 }
 
 
-function bookAppointment() {
+function bookAppointment(event) {
+    event.preventDefault();
+
     let name = document.getElementById("appointmentName").value;
     let doctor = document.getElementById("appointmentDoctor").value;
     let date = document.getElementById("appointmentDate").value;
