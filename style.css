@@ -634,26 +634,6 @@ nav a {
 
 }
 
-.medicine-status {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: #e5f8ef;
-    color: #16804b;
-    font-weight: bold;
-    font-size: 13px;
-}
-
-.medicine-note {
-    margin-top: 30px;
-    padding: 18px 22px;
-    background: #fff8e6;
-    border-left: 5px solid #f0b429;
-    border-radius: 10px;
-    color: #684f00;
-}
-
 /* Mobile */
 @media (max-width: 900px) {
     .medicine-grid {
