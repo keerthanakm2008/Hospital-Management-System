@@ -485,7 +485,6 @@ color: #d4e3e5;
 
 @media (max-width: 900px) {
 
-```
 header {
     flex-direction: column;
     gap: 15px;
@@ -513,13 +512,13 @@ nav {
     grid-template-columns: 1fr;
     max-width: 600px;
 }
-```
+
 
 }
 
 @media (max-width: 600px) {
 
-```
+
 .hero {
     padding: 60px 25px;
 }
@@ -568,51 +567,6 @@ nav a {
 }
 
 
-}
-/* ================= MEDICINE SECTION ================= */
-
-.medicine-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    margin-top: 30px;
-}
-
-.medicine-card {
-    background: white;
-    padding: 28px 22px;
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(0, 80, 120, 0.10);
-    border: 1px solid #dceff5;
-    transition: 0.3s;
-}
-
-.medicine-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 14px 30px rgba(0, 100, 140, 0.16);
-}
-
-.medicine-icon {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #e8f8fc;
-    border-radius: 50%;
-    font-size: 30px;
-    margin-bottom: 15px;
-}
-
-.medicine-card h3 {
-    color: #087f8c;
-    margin-bottom: 12px;
-}
-
-.medicine-card p {
-    color: #52636d;
-    line-height: 1.6;
-    margin: 7px 0;
 }
 
 .medicine-status {
