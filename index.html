@@ -1,165 +1,423 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Management System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>🏥 Hospital Management System</h1>
+<header>
+    <div class="logo">🏥 HospitalCare</div>
 
-    <nav>
-        <a href="#">Home</a> |
-        <a href="#patients">Patients</a> |
-        <a href="#doctors">Doctors</a> |
-        <a href="#appointment">Appointments</a> |
-        <a href="#records">Records</a> |
-        <a href="#contact">Contact</a> |
-        <a href="login.html">Login</a>
-    </nav>
+```
+<nav>
+    <a href="#home">Home</a>
+    <a href="#patients">Patients</a>
+    <a href="#doctors">Doctors</a>
+    <a href="#appointment">Appointments</a>
+    <a href="#records">Records</a>
+    <a href="#contact">Contact</a>
+    <a href="login.html" class="login-btn">Login</a>
+</nav>
+```
 
-    <hr>
+</header>
 
-    <h2>Welcome to Our Hospital</h2>
+<!-- HOME -->
+
+<section id="home" class="hero">
+
+```
+<div class="hero-content">
+    <span class="badge">🏥 Trusted Healthcare Services</span>
+
+    <h1>Welcome to<br>
+        <span>Hospital Management System</span>
+    </h1>
 
     <p>
-        Hospital Management System helps to manage
-        patients, doctors and appointments easily.
+        Manage patients, doctors, appointments and medical records
+        easily through one simple healthcare management system.
     </p>
 
-    <h2>Our Services</h2>
+    <a href="#patients" class="primary-btn">
+        Register Patient
+    </a>
 
-    <ul>
-        <li>Patient Management</li>
-        <li>Doctor Management</li>
-        <li>Appointment Management</li>
-        <li>Medical Records</li>
-    </ul>
+    <a href="#appointment" class="secondary-btn">
+        Book Appointment
+    </a>
+</div>
+```
 
-    <!-- Patient Section -->
-    <section id="patients">
-        <h2>Patient Registration</h2>
+</section>
 
-        <form onsubmit="registerPatient(event); return false;">
+<!-- DASHBOARD -->
 
-            <label>Patient Name:</label><br>
-            <input type="text" id="patientName" required><br><br>
+<section class="dashboard">
 
-            <label>Phone Number:</label><br>
-            <input type="tel" id="phone" required><br><br>
+```
+<div class="stat-card">
+    <div class="stat-icon">👤</div>
+    <h3 id="patientCount">0</h3>
+    <p>Registered Patients</p>
+</div>
 
-            <label>Age:</label><br>
-            <input type="number" id="age" required><br><br>
+<div class="stat-card">
+    <div class="stat-icon">👨‍⚕️</div>
+    <h3>3</h3>
+    <p>Available Doctors</p>
+</div>
 
-            <label>Gender:</label><br>
-            <select id="gender" required>
-                <option value="">Select Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select><br><br>
+<div class="stat-card">
+    <div class="stat-icon">📅</div>
+    <h3 id="appointmentCount">0</h3>
+    <p>Appointments</p>
+</div>
 
-            <label>Disease:</label><br>
-            <input type="text" id="disease" required><br><br>
+<div class="stat-card">
+    <div class="stat-icon">📋</div>
+    <h3 id="recordCount">0</h3>
+    <p>Medical Records</p>
+</div>
+```
 
-            <label>Doctor:</label><br>
-            <input type="text" id="doctor" required><br><br>
+</section>
 
-            <button type="submit">Register Patient</button>
+<!-- SERVICES -->
 
-        </form>
+<section class="section">
 
-        <h2>Search Patient</h2>
+```
+<div class="section-title">
+    <span>OUR SERVICES</span>
+    <h2>Complete Healthcare Management</h2>
+    <p>Everything you need to manage hospital activities efficiently.</p>
+</div>
 
-        <input type="text" id="searchPatient"
-               placeholder="Enter Patient Name">
+<div class="service-grid">
 
-        <button onclick="searchPatient()">Search</button>
+    <div class="service-card">
+        <div class="service-icon">👤</div>
+        <h3>Patient Management</h3>
+        <p>Register and manage patient information easily.</p>
+    </div>
 
-        <p id="searchResult"></p>
-    </section>
+    <div class="service-card">
+        <div class="service-icon">👨‍⚕️</div>
+        <h3>Doctor Management</h3>
+        <p>View doctors, specializations and availability.</p>
+    </div>
+
+    <div class="service-card">
+        <div class="service-icon">📅</div>
+        <h3>Appointment Management</h3>
+        <p>Book and manage patient appointments.</p>
+    </div>
+
+    <div class="service-card">
+        <div class="service-icon">📋</div>
+        <h3>Medical Records</h3>
+        <p>View registered patient medical information.</p>
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- PATIENTS -->
+
+<section id="patients" class="section">
+
+```
+<div class="section-title">
+    <span>PATIENT MANAGEMENT</span>
+    <h2>Patient Registration</h2>
+    <p>Enter patient details to register a new patient.</p>
+</div>
+
+<div class="form-card">
+
+    <form onsubmit="registerPatient(event)">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="patientName"
+                       placeholder="Enter patient name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter phone number"
+                       pattern="[0-9]{10}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="age"
+                       placeholder="Enter age"
+                       min="1" max="120" required>
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <select id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Disease</label>
+                <input type="text" id="disease"
+                       placeholder="Enter disease" required>
+            </div>
+
+            <div class="form-group">
+                <label>Doctor</label>
+                <select id="doctor" required>
+                    <option value="">Select Doctor</option>
+                    <option>Dr. Arun</option>
+                    <option>Dr. Priya</option>
+                    <option>Dr. Kumar</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Register Patient
+        </button>
+
+    </form>
+
+    <div id="patientMessage"></div>
+
+</div>
 
 
-    <!-- Doctors Section -->
-    <section id="doctors">
-        <h2>Our Doctors</h2>
+<!-- SEARCH -->
+<div class="search-box">
 
-        <ul>
-            <li>
-                Dr. Arun - General Physician<br>
-                Phone: 9876543211
-            </li><br>
+    <h2>🔎 Search Patient</h2>
 
-            <li>
-                Dr. Priya - Cardiologist<br>
-                Phone: 9876543212
-            </li><br>
+    <div class="search-row">
 
-            <li>
-                Dr. Kumar - Orthopedic Specialist<br>
-                Phone: 9876543213
-            </li>
-        </ul>
-    </section>
+        <input type="text"
+               id="searchPatient"
+               placeholder="Enter patient name">
 
+        <button onclick="searchPatient()">
+            Search
+        </button>
 
-    <!-- Appointment Section -->
-    <section id="appointment">
-        <h2>Book an Appointment</h2>
+    </div>
 
-        <form onsubmit="bookAppointment(event); return false;">
+    <div id="searchResult"></div>
 
-            <label>Patient Name:</label><br>
-            <input type="text" id="appointmentName" required><br><br>
+</div>
+```
 
-            <label>Select Doctor:</label><br>
-            <select id="appointmentDoctor" required>
-                <option value="">Choose Doctor</option>
-                <option>Dr. Arun</option>
-                <option>Dr. Priya</option>
-                <option>Dr. Kumar</option>
-            </select><br><br>
+</section>
 
-            <label>Appointment Date:</label><br>
-            <input type="date" id="appointmentDate" required><br><br>
+<!-- DOCTORS -->
 
-            <label>Appointment Time:</label><br>
-            <input type="time" id="appointmentTime" required><br><br>
+<section id="doctors" class="section doctors-section">
 
-            <button type="submit">Book Appointment</button>
+```
+<div class="section-title">
+    <span>OUR MEDICAL TEAM</span>
+    <h2>Meet Our Doctors</h2>
+    <p>Experienced doctors available for your healthcare needs.</p>
+</div>
 
-        </form>
-    </section>
+<div class="doctor-grid">
 
+    <div class="doctor-card">
+        <div class="doctor-icon">👨‍⚕️</div>
+        <h3>Dr. Arun</h3>
+        <p class="specialization">General Physician</p>
+        <p>📞 9876543211</p>
+        <p>🕐 9:00 AM - 1:00 PM</p>
+        <span class="available">Available</span>
+    </div>
 
-    <!-- Records Section -->
-    <section id="records">
-        <h2>View Records</h2>
+    <div class="doctor-card">
+        <div class="doctor-icon">👩‍⚕️</div>
+        <h3>Dr. Priya</h3>
+        <p class="specialization">Cardiologist</p>
+        <p>📞 9876543212</p>
+        <p>🕐 10:00 AM - 2:00 PM</p>
+        <span class="available">Available</span>
+    </div>
 
-        <button onclick="viewRecords()">View Patient Records</button>
+    <div class="doctor-card">
+        <div class="doctor-icon">👨‍⚕️</div>
+        <h3>Dr. Kumar</h3>
+        <p class="specialization">Orthopedic Specialist</p>
+        <p>📞 9876543213</p>
+        <p>🕐 2:00 PM - 6:00 PM</p>
+        <span class="available">Available</span>
+    </div>
 
-        <div id="recordList"></div>
-    </section>
+</div>
+```
 
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Us</h2>
+<!-- APPOINTMENT -->
 
-        <p>Email: hospital@example.com</p>
-        <p>Phone: 9876543210</p>
-    </section>
+<section id="appointment" class="section">
 
+```
+<div class="section-title">
+    <span>APPOINTMENT</span>
+    <h2>Book an Appointment</h2>
+    <p>Schedule an appointment with our doctors.</p>
+</div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 Hospital Management System</p>
-        <p>Providing Better Healthcare Services</p>
-    </footer>
+<div class="form-card">
 
-    <script src="script.js"></script>
+    <form onsubmit="bookAppointment(event)">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text"
+                       id="appointmentName"
+                       placeholder="Enter patient name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Doctor</label>
+                <select id="appointmentDoctor" required>
+                    <option value="">Choose Doctor</option>
+                    <option>Dr. Arun</option>
+                    <option>Dr. Priya</option>
+                    <option>Dr. Kumar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Appointment Date</label>
+                <input type="date"
+                       id="appointmentDate"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Appointment Time</label>
+                <input type="time"
+                       id="appointmentTime"
+                       required>
+            </div>
+
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Book Appointment
+        </button>
+
+    </form>
+
+    <div id="appointmentMessage"></div>
+
+</div>
+```
+
+</section>
+
+<!-- RECORDS -->
+
+<section id="records" class="section">
+
+```
+<div class="section-title">
+    <span>MEDICAL RECORDS</span>
+    <h2>Patient Records</h2>
+    <p>View registered patient information.</p>
+</div>
+
+<div class="records-card">
+
+    <button onclick="viewRecords()" class="primary-btn">
+        📋 View Patient Records
+    </button>
+
+    <div id="recordList"></div>
+
+</div>
+```
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact" class="contact-section">
+
+```
+<div class="section-title">
+    <span>GET IN TOUCH</span>
+    <h2>Contact Us</h2>
+    <p>We are here to help you with your healthcare needs.</p>
+</div>
+
+<div class="contact-grid">
+
+    <div class="contact-card">
+        <div>📧</div>
+        <h3>Email</h3>
+        <p>hospital@example.com</p>
+    </div>
+
+    <div class="contact-card">
+        <div>📞</div>
+        <h3>Phone</h3>
+        <p>9876543210</p>
+    </div>
+
+    <div class="contact-card">
+        <div>📍</div>
+        <h3>Address</h3>
+        <p>Hospital Main Road, India</p>
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+```
+<h3>🏥 HospitalCare</h3>
+
+<p>
+    Providing Better Healthcare Services
+</p>
+
+<p>
+    © 2026 Hospital Management System
+</p>
+```
+
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
-
