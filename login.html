@@ -2,31 +2,23 @@
 <html>
 <head>
     <title>Hospital Login</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <h1>🏥 Hospital Management System</h1>
-
     <h2>Login</h2>
 
-    <form onsubmit="loginUser(event)">
+    <label>Username:</label><br>
+    <input type="text" id="username"><br><br>
 
-        <label>Username:</label><br>
-        <input type="text" id="username" required><br><br>
+    <label>Password:</label><br>
+    <input type="password" id="password"><br><br>
 
-        <label>Password:</label><br>
-        <input type="password" id="password" required><br><br>
-
-        <button type="submit">Login</button>
-
-    </form>
+    <button onclick="loginUser()">Login</button>
 
     <script>
-        function loginUser(event) {
-            event.preventDefault();
-
+        function loginUser() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
 
@@ -40,4 +32,3 @@
 
 </body>
 </html>
-
