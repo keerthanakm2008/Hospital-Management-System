@@ -6,11 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     displayRecords();
 });
 
-
-// ================================
-// PATIENT REGISTRATION
-// ================================
-
 function registerPatient(event) {
     event.preventDefault();
 
@@ -21,19 +16,12 @@ function registerPatient(event) {
     let disease = document.getElementById("disease").value.trim();
     let doctor = document.getElementById("doctor").value;
 
-    if (
-        name === "" ||
-        phone === "" ||
-        age === "" ||
-        gender === "" ||
-        disease === "" ||
-        doctor === ""
-    ) {
-        showMessage(
-            "patientMessage",
-            "Please fill in all patient details.",
-            "error"
-        );
+    if (!name || !phone || !age || !gender || !disease || !doctor) {
+        document.getElementById("patientMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all patient details.
+            </div>
+        `;
         return;
     }
 
@@ -50,10 +38,7 @@ function registerPatient(event) {
 
     patients.push(patient);
 
-    localStorage.setItem(
-        "patients",
-        JSON.stringify(patients)
-    );
+    localStorage.setItem("patients", JSON.stringify(patients));
 
     document.getElementById("patientMessage").innerHTML = `
         <div class="success-message">
@@ -76,95 +61,20 @@ function registerPatient(event) {
 }
 
 
-// ================================
-// SEARCH PATIENT
-// ================================
-
-function searchPatient() {
-    let searchName = document
-        .getElementById("searchPatient")
-        .value
-        .trim()
-        .toLowerCase();
-
-    let result = document.getElementById("searchResult");
-
-    if (searchName === "") {
-        result.innerHTML = `
-            <div class="error-message">
-                Please enter a patient name.
-            </div>
-        `;
-        return;
-    }
-
-    let foundPatients = patients.filter(function (patient) {
-        return patient.name
-            .toLowerCase()
-            .includes(searchName);
-    });
-
-    if (foundPatients.length === 0) {
-        result.innerHTML = `
-            <div class="error-message">
-                ❌ No patient found with the name
-                "<strong>${searchName}</strong>".
-            </div>
-        `;
-        return;
-    }
-
-    result.innerHTML = foundPatients.map(function (patient) {
-        return `
-            <div class="record-item">
-                <h3>👤 ${patient.name}</h3>
-                <p><strong>Patient ID:</strong> ${patient.id}</p>
-                <p><strong>Phone:</strong> ${patient.phone}</p>
-                <p><strong>Age:</strong> ${patient.age}</p>
-                <p><strong>Gender:</strong> ${patient.gender}</p>
-                <p><strong>Disease:</strong> ${patient.disease}</p>
-                <p><strong>Doctor:</strong> ${patient.doctor}</p>
-            </div>
-        `;
-    }).join("");
-}
-
-
-// ================================
-// BOOK APPOINTMENT
-// ================================
-
 function bookAppointment(event) {
     event.preventDefault();
 
-    let name = document
-        .getElementById("appointmentName")
-        .value
-        .trim();
+    let name = document.getElementById("appointmentName").value.trim();
+    let doctor = document.getElementById("appointmentDoctor").value;
+    let date = document.getElementById("appointmentDate").value;
+    let time = document.getElementById("appointmentTime").value;
 
-    let doctor = document
-        .getElementById("appointmentDoctor")
-        .value;
-
-    let date = document
-        .getElementById("appointmentDate")
-        .value;
-
-    let time = document
-        .getElementById("appointmentTime")
-        .value;
-
-    if (
-        name === "" ||
-        doctor === "" ||
-        date === "" ||
-        time === ""
-    ) {
-        showMessage(
-            "appointmentMessage",
-            "Please fill in all appointment details.",
-            "error"
-        );
+    if (!name || !doctor || !date || !time) {
+        document.getElementById("appointmentMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all appointment details.
+            </div>
+        `;
         return;
     }
 
@@ -200,31 +110,67 @@ function bookAppointment(event) {
 }
 
 
-// ================================
-// VIEW RECORDS
-// ================================
+function searchPatient() {
+    let searchName = document
+        .getElementById("searchPatient")
+        .value
+        .trim()
+        .toLowerCase();
+
+    let result = document.getElementById("searchResult");
+
+    if (!searchName) {
+        result.innerHTML = `
+            <div class="error-message">
+                Please enter a patient name.
+            </div>
+        `;
+        return;
+    }
+
+    let found = patients.filter(function (patient) {
+        return patient.name.toLowerCase().includes(searchName);
+    });
+
+    if (found.length === 0) {
+        result.innerHTML = `
+            <div class="error-message">
+                ❌ Patient not found.
+            </div>
+        `;
+        return;
+    }
+
+    result.innerHTML = found.map(function (patient) {
+        return `
+            <div class="record-item">
+                <h3>👤 ${patient.name}</h3>
+                <p><strong>Patient ID:</strong> ${patient.id}</p>
+                <p><strong>Phone:</strong> ${patient.phone}</p>
+                <p><strong>Age:</strong> ${patient.age}</p>
+                <p><strong>Gender:</strong> ${patient.gender}</p>
+                <p><strong>Disease:</strong> ${patient.disease}</p>
+                <p><strong>Doctor:</strong> ${patient.doctor}</p>
+            </div>
+        `;
+    }).join("");
+}
+
 
 function viewRecords() {
     displayRecords();
 }
 
 
-// ================================
-// DISPLAY RECORDS
-// ================================
-
 function displayRecords() {
     let recordList = document.getElementById("recordList");
 
-    if (!recordList) {
-        return;
-    }
+    if (!recordList) return;
 
     if (patients.length === 0) {
         recordList.innerHTML = `
             <div class="error-message">
                 No patient records available yet.
-                Please register a patient first.
             </div>
         `;
         return;
@@ -239,97 +185,26 @@ function displayRecords() {
         recordList.innerHTML += `
             <div class="record-item">
                 <h3>👤 ${patient.name}</h3>
-
-                <p>
-                    <strong>Patient ID:</strong>
-                    ${patient.id}
-                </p>
-
-                <p>
-                    <strong>Phone:</strong>
-                    ${patient.phone}
-                </p>
-
-                <p>
-                    <strong>Age:</strong>
-                    ${patient.age}
-                </p>
-
-                <p>
-                    <strong>Gender:</strong>
-                    ${patient.gender}
-                </p>
-
-                <p>
-                    <strong>Disease:</strong>
-                    ${patient.disease}
-                </p>
-
-                <p>
-                    <strong>Doctor:</strong>
-                    ${patient.doctor}
-                </p>
-
-                <p>
-                    <strong>Registered Date:</strong>
-                    ${patient.registeredDate}
-                </p>
+                <p><strong>Patient ID:</strong> ${patient.id}</p>
+                <p><strong>Phone:</strong> ${patient.phone}</p>
+                <p><strong>Age:</strong> ${patient.age}</p>
+                <p><strong>Gender:</strong> ${patient.gender}</p>
+                <p><strong>Disease:</strong> ${patient.disease}</p>
+                <p><strong>Doctor:</strong> ${patient.doctor}</p>
+                <p><strong>Registered Date:</strong> ${patient.registeredDate}</p>
             </div>
         `;
     });
 }
 
 
-// ================================
-// DASHBOARD
-// ================================
-
 function updateDashboard() {
-    let patientCount =
-        document.getElementById("patientCount");
+    document.getElementById("patientCount").textContent =
+        patients.length;
 
-    let appointmentCount =
-        document.getElementById("appointmentCount");
+    document.getElementById("appointmentCount").textContent =
+        appointments.length;
 
-    let recordCount =
-        document.getElementById("recordCount");
-
-    if (patientCount) {
-        patientCount.textContent = patients.length;
-    }
-
-    if (appointmentCount) {
-        appointmentCount.textContent = appointments.length;
-    }
-
-    if (recordCount) {
-        recordCount.textContent = patients.length;
-    }
-}
-
-
-// ================================
-// MESSAGE FUNCTION
-// ================================
-
-function showMessage(elementId, message, type) {
-    let element = document.getElementById(elementId);
-
-    if (!element) {
-        return;
-    }
-
-    if (type === "success") {
-        element.innerHTML = `
-            <div class="success-message">
-                ${message}
-            </div>
-        `;
-    } else {
-        element.innerHTML = `
-            <div class="error-message">
-                ${message}
-            </div>
-        `;
-    }
+    document.getElementById("recordCount").textContent =
+        patients.length;
 }
