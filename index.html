@@ -31,6 +31,7 @@
     <a href="#staff">Nurses / Staff</a>
     <a href="#reports">Reports</a>
     <a href="#notifications">Notifications</a>
+    <a href="#pharmacy">Pharmacy Stock</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1245,6 +1246,91 @@
         <h2>🔔 Notification Records</h2>
 
         <div id="notificationList"></div>
+
+    </div>
+
+</section>
+    <!-- PHARMACY MANAGEMENT -->
+
+<section id="pharmacy" class="section">
+
+    <div class="section-title">
+        <span>PHARMACY MANAGEMENT</span>
+        <h2>Medicine Stock Management</h2>
+        <p>Manage medicines and pharmacy stock efficiently.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>💊 Add Medicine Stock</h2>
+
+        <form onsubmit="addMedicineStock(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Medicine Name</label>
+                    <input type="text"
+                           id="stockMedicineName"
+                           placeholder="Enter medicine name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="medicineCategory" required>
+                        <option value="">Select Category</option>
+                        <option>Tablet</option>
+                        <option>Capsule</option>
+                        <option>Syrup</option>
+                        <option>Injection</option>
+                        <option>Cream</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number"
+                           id="medicineQuantity"
+                           placeholder="Enter quantity"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Price per Unit</label>
+                    <input type="number"
+                           id="medicinePrice"
+                           placeholder="Enter price"
+                           min="0"
+                           step="0.01"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="date"
+                           id="medicineExpiry"
+                           required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                💊 Add Medicine Stock
+            </button>
+
+        </form>
+
+        <div id="pharmacyMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>💊 Pharmacy Stock Records</h2>
+
+        <div id="pharmacyList"></div>
 
     </div>
 
