@@ -5,6 +5,7 @@ let buildings = JSON.parse(localStorage.getItem("buildings")) || [];
 let emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
 let bills = JSON.parse(localStorage.getItem("bills")) || [];
 let labTests = JSON.parse(localStorage.getItem("labTests")) || [];
+let bloodStocks = JSON.parse(localStorage.getItem("bloodStocks")) || [];
 
 if (beds.length === 0) {
 
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayEmergencies();
     displayBills();
     displayLabTests();
+    displayBloodStocks();
 });
 
 
@@ -1835,4 +1837,202 @@ function deleteLabTest(id) {
     displayLabTests();
 
     alert("🗑️ Lab test deleted successfully!");
+}
+function addBloodStock(event) {
+    event.preventDefault();
+
+    let bloodGroup =
+        document.getElementById("bloodGroup").value;
+
+    let donorName =
+        document.getElementById("donorName").value.trim();
+
+    let units =
+        Number(document.getElementById("bloodUnits").value);
+
+    let status =
+        document.getElementById("bloodStatus").value;
+
+    if (
+        !bloodGroup ||
+        !donorName ||
+        units <= 0 ||
+        !status
+    ) {
+        document.getElementById("bloodMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all blood bank details.
+            </div>
+        `;
+        return;
+    }
+
+    let bloodStock = {
+        id: Date.now(),
+        bloodGroup: bloodGroup,
+        donorName: donorName,
+        units: units,
+        status: status,
+        date: new Date().toLocaleDateString()
+    };
+
+    bloodStocks.push(bloodStock);
+
+    localStorage.setItem(
+        "bloodStocks",
+        JSON.stringify(bloodStocks)
+    );
+
+    document.getElementById("bloodMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Blood Stock Added Successfully!</h3>
+            <p><strong>Blood Group:</strong> ${bloodStock.bloodGroup}</p>
+            <p><strong>Donor:</strong> ${bloodStock.donorName}</p>
+            <p><strong>Units:</strong> ${bloodStock.units}</p>
+            <p><strong>Status:</strong> ${bloodStock.status}</p>
+        </div>
+    `;
+
+    document.querySelector("#bloodbank form").reset();
+
+    displayBloodStocks();
+}
+
+
+function displayBloodStocks() {
+
+    let bloodList =
+        document.getElementById("bloodList");
+
+    if (!bloodList) return;
+
+    if (bloodStocks.length === 0) {
+        bloodList.innerHTML = `
+            <div class="error-message">
+                No blood bank records available yet.
+            </div>
+        `;
+        return;
+    }
+
+    bloodList.innerHTML = `
+        <h3>🩸 Registered Blood Stock</h3>
+        <p>Total Records:
+            <strong>${bloodStocks.length}</strong>
+        </p>
+    `;
+
+    bloodStocks.forEach(function(stock) {
+
+        bloodList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🩸 ${stock.bloodGroup}</h3>
+
+                <p>
+                    <strong>Donor:</strong>
+                    ${stock.donorName}
+                </p>
+
+                <p>
+                    <strong>Units:</strong>
+                    ${stock.units}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${stock.status}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${stock.date}
+                </p>
+
+                <button onclick="editBloodStock(${stock.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteBloodStock(${stock.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editBloodStock(id) {
+
+    let stock = bloodStocks.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!stock) return;
+
+    let newGroup = prompt(
+        "Enter Blood Group:",
+        stock.bloodGroup
+    );
+
+    if (newGroup === null) return;
+
+    let newDonor = prompt(
+        "Enter Donor Name:",
+        stock.donorName
+    );
+
+    if (newDonor === null) return;
+
+    let newUnits = prompt(
+        "Enter Units:",
+        stock.units
+    );
+
+    if (newUnits === null) return;
+
+    let newStatus = prompt(
+        "Enter Status (Available / Reserved):",
+        stock.status
+    );
+
+    if (newStatus === null) return;
+
+    stock.bloodGroup = newGroup.trim();
+    stock.donorName = newDonor.trim();
+    stock.units = Number(newUnits);
+    stock.status = newStatus.trim();
+
+    localStorage.setItem(
+        "bloodStocks",
+        JSON.stringify(bloodStocks)
+    );
+
+    displayBloodStocks();
+
+    alert("✅ Blood stock updated successfully!");
+}
+
+
+function deleteBloodStock(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this blood stock?"
+    );
+
+    if (!confirmDelete) return;
+
+    bloodStocks = bloodStocks.filter(function(stock) {
+        return stock.id !== id;
+    });
+
+    localStorage.setItem(
+        "bloodStocks",
+        JSON.stringify(bloodStocks)
+    );
+
+    displayBloodStocks();
+
+    alert("🗑️ Blood stock deleted successfully!");
 }
