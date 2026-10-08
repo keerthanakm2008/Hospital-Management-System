@@ -13,6 +13,8 @@ let notifications =
     JSON.parse(localStorage.getItem("notifications")) || [];
 let medicineStocks =
     JSON.parse(localStorage.getItem("medicineStocks")) || [];
+let discharges =
+    JSON.parse(localStorage.getItem("discharges")) || [];
 
 if (beds.length === 0) {
 
@@ -47,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateReports();
     displayNotifications();
     displayMedicineStocks();
+    displayDischarges();
 });
 
 
@@ -2940,4 +2943,288 @@ function deleteMedicineStock(id) {
     displayMedicineStocks();
 
     alert("🗑️ Medicine stock deleted successfully!");
+}
+function addDischarge(event) {
+    event.preventDefault();
+
+    let patientName =
+        document.getElementById("dischargePatientName").value.trim();
+
+    let patientId =
+        document.getElementById("dischargePatientId").value.trim();
+
+    let admissionDate =
+        document.getElementById("admissionDate").value;
+
+    let dischargeDate =
+        document.getElementById("dischargeDate").value;
+
+    let doctor =
+        document.getElementById("dischargeDoctor").value;
+
+    let status =
+        document.getElementById("dischargeStatus").value;
+
+    let finalBill =
+        Number(document.getElementById("finalBill").value);
+
+    let notes =
+        document.getElementById("dischargeNotes").value.trim();
+
+    if (
+        !patientName ||
+        !patientId ||
+        !admissionDate ||
+        !dischargeDate ||
+        !doctor ||
+        !status ||
+        finalBill < 0 ||
+        !notes
+    ) {
+        document.getElementById("dischargeMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all discharge details.
+            </div>
+        `;
+        return;
+    }
+
+    let discharge = {
+        id: Date.now(),
+        patientName: patientName,
+        patientId: patientId,
+        admissionDate: admissionDate,
+        dischargeDate: dischargeDate,
+        doctor: doctor,
+        status: status,
+        finalBill: finalBill,
+        notes: notes
+    };
+
+    discharges.push(discharge);
+
+    localStorage.setItem(
+        "discharges",
+        JSON.stringify(discharges)
+    );
+
+    document.getElementById("dischargeMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Patient Discharged Successfully!</h3>
+
+            <p>
+                <strong>Patient:</strong>
+                ${discharge.patientName}
+            </p>
+
+            <p>
+                <strong>Patient ID:</strong>
+                ${discharge.patientId}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                ${discharge.status}
+            </p>
+
+            <p>
+                <strong>Final Bill:</strong>
+                ₹${discharge.finalBill}
+            </p>
+        </div>
+    `;
+
+    document.querySelector("#discharge form").reset();
+
+    displayDischarges();
+}
+
+
+function displayDischarges() {
+
+    let dischargeList =
+        document.getElementById("dischargeList");
+
+    if (!dischargeList) return;
+
+    if (discharges.length === 0) {
+
+        dischargeList.innerHTML = `
+            <div class="error-message">
+                No discharge records available yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    dischargeList.innerHTML = `
+        <h3>🏠 Registered Discharge Records</h3>
+
+        <p>
+            Total Discharges:
+            <strong>${discharges.length}</strong>
+        </p>
+    `;
+
+    discharges.forEach(function(discharge) {
+
+        dischargeList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🏠 ${discharge.patientName}</h3>
+
+                <p>
+                    <strong>Patient ID:</strong>
+                    ${discharge.patientId}
+                </p>
+
+                <p>
+                    <strong>Admission Date:</strong>
+                    ${discharge.admissionDate}
+                </p>
+
+                <p>
+                    <strong>Discharge Date:</strong>
+                    ${discharge.dischargeDate}
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    ${discharge.doctor}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${discharge.status}
+                </p>
+
+                <p>
+                    <strong>Final Bill:</strong>
+                    ₹${discharge.finalBill}
+                </p>
+
+                <p>
+                    <strong>Notes:</strong>
+                    ${discharge.notes}
+                </p>
+
+                <button onclick="editDischarge(${discharge.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteDischarge(${discharge.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editDischarge(id) {
+
+    let discharge = discharges.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!discharge) return;
+
+    let newName = prompt(
+        "Enter Patient Name:",
+        discharge.patientName
+    );
+
+    if (newName === null) return;
+
+    let newPatientId = prompt(
+        "Enter Patient ID:",
+        discharge.patientId
+    );
+
+    if (newPatientId === null) return;
+
+    let newAdmission = prompt(
+        "Enter Admission Date:",
+        discharge.admissionDate
+    );
+
+    if (newAdmission === null) return;
+
+    let newDischarge = prompt(
+        "Enter Discharge Date:",
+        discharge.dischargeDate
+    );
+
+    if (newDischarge === null) return;
+
+    let newDoctor = prompt(
+        "Enter Doctor:",
+        discharge.doctor
+    );
+
+    if (newDoctor === null) return;
+
+    let newStatus = prompt(
+        "Enter Status:",
+        discharge.status
+    );
+
+    if (newStatus === null) return;
+
+    let newBill = prompt(
+        "Enter Final Bill:",
+        discharge.finalBill
+    );
+
+    if (newBill === null) return;
+
+    let newNotes = prompt(
+        "Enter Discharge Notes:",
+        discharge.notes
+    );
+
+    if (newNotes === null) return;
+
+    discharge.patientName = newName.trim();
+    discharge.patientId = newPatientId.trim();
+    discharge.admissionDate = newAdmission.trim();
+    discharge.dischargeDate = newDischarge.trim();
+    discharge.doctor = newDoctor.trim();
+    discharge.status = newStatus.trim();
+    discharge.finalBill = Number(newBill);
+    discharge.notes = newNotes.trim();
+
+    localStorage.setItem(
+        "discharges",
+        JSON.stringify(discharges)
+    );
+
+    displayDischarges();
+
+    alert("✅ Discharge details updated successfully!");
+}
+
+
+function deleteDischarge(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this discharge record?"
+    );
+
+    if (!confirmDelete) return;
+
+    discharges = discharges.filter(function(discharge) {
+        return discharge.id !== id;
+    });
+
+    localStorage.setItem(
+        "discharges",
+        JSON.stringify(discharges)
+    );
+
+    displayDischarges();
+
+    alert("🗑️ Discharge record deleted successfully!");
 }
