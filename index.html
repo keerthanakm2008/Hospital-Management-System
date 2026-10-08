@@ -28,6 +28,7 @@
     <a href="#lab">Lab Tests</a>
     <a href="#bloodbank">Blood Bank</a>
     <a href="#departments">Departments</a>
+    <a href="#staff">Nurses / Staff</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1001,6 +1002,92 @@
         <h2>🏥 Department Records</h2>
 
         <div id="departmentList"></div>
+
+    </div>
+
+</section>
+    <!-- STAFF MANAGEMENT -->
+
+<section id="staff" class="section">
+
+    <div class="section-title">
+        <span>STAFF MANAGEMENT</span>
+        <h2>Nurses & Staff Management</h2>
+        <p>Manage hospital nurses and staff details easily.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>👩‍⚕️ Add Staff Member</h2>
+
+        <form onsubmit="addStaff(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Staff Name</label>
+                    <input type="text"
+                           id="staffName"
+                           placeholder="Enter staff name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="staffRole" required>
+                        <option value="">Select Role</option>
+                        <option>Nurse</option>
+                        <option>Receptionist</option>
+                        <option>Lab Technician</option>
+                        <option>Pharmacist</option>
+                        <option>Ward Assistant</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text"
+                           id="staffDepartment"
+                           placeholder="Enter department"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel"
+                           id="staffPhone"
+                           placeholder="Enter 10 digit number"
+                           pattern="[0-9]{10}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Shift</label>
+                    <select id="staffShift" required>
+                        <option value="">Select Shift</option>
+                        <option>Morning</option>
+                        <option>Afternoon</option>
+                        <option>Night</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                👩‍⚕️ Add Staff
+            </button>
+
+        </form>
+
+        <div id="staffMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>👩‍⚕️ Staff Records</h2>
+
+        <div id="staffList"></div>
 
     </div>
 
