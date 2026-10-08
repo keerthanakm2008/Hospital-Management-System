@@ -11,6 +11,8 @@ let staffMembers =
     JSON.parse(localStorage.getItem("staffMembers")) || [];
 let notifications =
     JSON.parse(localStorage.getItem("notifications")) || [];
+let medicineStocks =
+    JSON.parse(localStorage.getItem("medicineStocks")) || [];
 
 if (beds.length === 0) {
 
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayStaff();
     updateReports();
     displayNotifications();
+    displayMedicineStocks();
 });
 
 
@@ -2725,4 +2728,216 @@ function deleteNotification(id) {
     displayNotifications();
 
     alert("🗑️ Notification deleted successfully!");
+}
+function addMedicineStock(event) {
+    event.preventDefault();
+
+    let name =
+        document.getElementById("stockMedicineName").value.trim();
+
+    let category =
+        document.getElementById("medicineCategory").value;
+
+    let quantity =
+        Number(document.getElementById("medicineQuantity").value);
+
+    let price =
+        Number(document.getElementById("medicinePrice").value);
+
+    let expiry =
+        document.getElementById("medicineExpiry").value;
+
+    if (
+        !name ||
+        !category ||
+        quantity < 0 ||
+        price < 0 ||
+        !expiry
+    ) {
+        document.getElementById("pharmacyMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all medicine stock details.
+            </div>
+        `;
+        return;
+    }
+
+    let medicine = {
+        id: Date.now(),
+        name: name,
+        category: category,
+        quantity: quantity,
+        price: price,
+        expiry: expiry
+    };
+
+    medicineStocks.push(medicine);
+
+    localStorage.setItem(
+        "medicineStocks",
+        JSON.stringify(medicineStocks)
+    );
+
+    document.getElementById("pharmacyMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Medicine Stock Added Successfully!</h3>
+            <p><strong>Medicine:</strong> ${medicine.name}</p>
+            <p><strong>Quantity:</strong> ${medicine.quantity}</p>
+            <p><strong>Price:</strong> ₹${medicine.price}</p>
+            <p><strong>Expiry:</strong> ${medicine.expiry}</p>
+        </div>
+    `;
+
+    document.querySelector("#pharmacy form").reset();
+
+    displayMedicineStocks();
+}
+
+
+function displayMedicineStocks() {
+
+    let pharmacyList =
+        document.getElementById("pharmacyList");
+
+    if (!pharmacyList) return;
+
+    if (medicineStocks.length === 0) {
+        pharmacyList.innerHTML = `
+            <div class="error-message">
+                No medicine stock records available yet.
+            </div>
+        `;
+        return;
+    }
+
+    pharmacyList.innerHTML = `
+        <h3>💊 Available Medicine Stock</h3>
+
+        <p>
+            Total Medicine Records:
+            <strong>${medicineStocks.length}</strong>
+        </p>
+    `;
+
+    medicineStocks.forEach(function(medicine) {
+
+        pharmacyList.innerHTML += `
+            <div class="record-item">
+
+                <h3>💊 ${medicine.name}</h3>
+
+                <p>
+                    <strong>Category:</strong>
+                    ${medicine.category}
+                </p>
+
+                <p>
+                    <strong>Quantity:</strong>
+                    ${medicine.quantity}
+                </p>
+
+                <p>
+                    <strong>Price per Unit:</strong>
+                    ₹${medicine.price}
+                </p>
+
+                <p>
+                    <strong>Expiry Date:</strong>
+                    ${medicine.expiry}
+                </p>
+
+                <button onclick="editMedicineStock(${medicine.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteMedicineStock(${medicine.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editMedicineStock(id) {
+
+    let medicine = medicineStocks.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!medicine) return;
+
+    let newName = prompt(
+        "Enter Medicine Name:",
+        medicine.name
+    );
+
+    if (newName === null) return;
+
+    let newCategory = prompt(
+        "Enter Category:",
+        medicine.category
+    );
+
+    if (newCategory === null) return;
+
+    let newQuantity = prompt(
+        "Enter Quantity:",
+        medicine.quantity
+    );
+
+    if (newQuantity === null) return;
+
+    let newPrice = prompt(
+        "Enter Price per Unit:",
+        medicine.price
+    );
+
+    if (newPrice === null) return;
+
+    let newExpiry = prompt(
+        "Enter Expiry Date:",
+        medicine.expiry
+    );
+
+    if (newExpiry === null) return;
+
+    medicine.name = newName.trim();
+    medicine.category = newCategory.trim();
+    medicine.quantity = Number(newQuantity);
+    medicine.price = Number(newPrice);
+    medicine.expiry = newExpiry.trim();
+
+    localStorage.setItem(
+        "medicineStocks",
+        JSON.stringify(medicineStocks)
+    );
+
+    displayMedicineStocks();
+
+    alert("✅ Medicine stock updated successfully!");
+}
+
+
+function deleteMedicineStock(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this medicine stock?"
+    );
+
+    if (!confirmDelete) return;
+
+    medicineStocks = medicineStocks.filter(function(medicine) {
+        return medicine.id !== id;
+    });
+
+    localStorage.setItem(
+        "medicineStocks",
+        JSON.stringify(medicineStocks)
+    );
+
+    displayMedicineStocks();
+
+    alert("🗑️ Medicine stock deleted successfully!");
 }
