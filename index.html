@@ -27,6 +27,7 @@
     <a href="#billing">Billing</a>
     <a href="#lab">Lab Tests</a>
     <a href="#bloodbank">Blood Bank</a>
+    <a href="#departments">Departments</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -928,6 +929,78 @@
         <h2>🩸 Blood Bank Records</h2>
 
         <div id="bloodList"></div>
+
+    </div>
+
+</section>
+    <!-- DEPARTMENT MANAGEMENT -->
+
+<section id="departments" class="section">
+
+    <div class="section-title">
+        <span>DEPARTMENT MANAGEMENT</span>
+        <h2>Hospital Departments</h2>
+        <p>Manage hospital departments and their details easily.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🏥 Add Department</h2>
+
+        <form onsubmit="addDepartment(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Department Name</label>
+                    <input type="text"
+                           id="departmentName"
+                           placeholder="Example: Cardiology"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Head Doctor</label>
+                    <input type="text"
+                           id="departmentDoctor"
+                           placeholder="Enter head doctor"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Location / Floor</label>
+                    <input type="text"
+                           id="departmentLocation"
+                           placeholder="Example: 2nd Floor"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="tel"
+                           id="departmentContact"
+                           placeholder="Enter contact number"
+                           pattern="[0-9]{10}"
+                           required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🏥 Add Department
+            </button>
+
+        </form>
+
+        <div id="departmentMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🏥 Department Records</h2>
+
+        <div id="departmentList"></div>
 
     </div>
 
