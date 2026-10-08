@@ -32,6 +32,7 @@
     <a href="#reports">Reports</a>
     <a href="#notifications">Notifications</a>
     <a href="#pharmacy">Pharmacy Stock</a>
+    <a href="#discharge">Discharge</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1331,6 +1332,112 @@
         <h2>💊 Pharmacy Stock Records</h2>
 
         <div id="pharmacyList"></div>
+
+    </div>
+
+</section>
+    <!-- DISCHARGE MANAGEMENT -->
+
+<section id="discharge" class="section">
+
+    <div class="section-title">
+        <span>DISCHARGE MANAGEMENT</span>
+        <h2>Patient Discharge Management</h2>
+        <p>Manage patient discharge details and final status.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🏠 Discharge Patient</h2>
+
+        <form onsubmit="addDischarge(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           id="dischargePatientName"
+                           placeholder="Enter patient name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Patient ID</label>
+                    <input type="text"
+                           id="dischargePatientId"
+                           placeholder="Enter patient ID"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Admission Date</label>
+                    <input type="date"
+                           id="admissionDate"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Discharge Date</label>
+                    <input type="date"
+                           id="dischargeDate"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Discharge Doctor</label>
+                    <select id="dischargeDoctor" required>
+                        <option value="">Select Doctor</option>
+                        <option>Dr. Arun</option>
+                        <option>Dr. Priya</option>
+                        <option>Dr. Kumar</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Discharge Status</label>
+                    <select id="dischargeStatus" required>
+                        <option value="">Select Status</option>
+                        <option>Recovered</option>
+                        <option>Stable</option>
+                        <option>Referred</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Final Bill Amount</label>
+                    <input type="number"
+                           id="finalBill"
+                           placeholder="Enter final bill"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Discharge Notes</label>
+                    <input type="text"
+                           id="dischargeNotes"
+                           placeholder="Enter discharge notes"
+                           required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🏠 Discharge Patient
+            </button>
+
+        </form>
+
+        <div id="dischargeMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🏠 Discharge Records</h2>
+
+        <div id="dischargeList"></div>
 
     </div>
 
