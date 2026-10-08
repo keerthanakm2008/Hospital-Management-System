@@ -22,6 +22,7 @@
     <a href="#records">Records</a>
     <a href="#medicines">Medicines</a>
     <a href="#beds">Beds</a>
+    <a href="#buildings">Buildings</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -495,6 +496,92 @@
         <h2>🛏️ Bed Records</h2>
 
         <div id="bedList"></div>
+
+    </div>
+
+</section>
+    <!-- BUILDING MANAGEMENT -->
+
+<section id="buildings" class="section">
+
+    <div class="section-title">
+        <span>BUILDING MANAGEMENT</span>
+        <h2>Hospital Building Management</h2>
+        <p>Manage hospital buildings, floors and rooms easily.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🏢 Add Building / Room</h2>
+
+        <form onsubmit="addBuilding(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Building Name</label>
+                    <input type="text"
+                           id="buildingName"
+                           placeholder="Enter building name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Floor Number</label>
+                    <input type="number"
+                           id="floorNumber"
+                           placeholder="Enter floor number"
+                           min="1"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Room Number</label>
+                    <input type="text"
+                           id="roomNumber"
+                           placeholder="Enter room number"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="buildingDepartment" required>
+                        <option value="">Select Department</option>
+                        <option>General Medicine</option>
+                        <option>Cardiology</option>
+                        <option>Orthopedics</option>
+                        <option>Emergency</option>
+                        <option>ICU</option>
+                        <option>General Ward</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Beds</label>
+                    <input type="number"
+                           id="buildingBeds"
+                           placeholder="Enter total beds"
+                           min="1"
+                           required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🏢 Add Building
+            </button>
+
+        </form>
+
+        <div id="buildingMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🏢 Building Records</h2>
+
+        <div id="buildingList"></div>
 
     </div>
 
