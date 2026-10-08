@@ -2,6 +2,7 @@ let patients = JSON.parse(localStorage.getItem("patients")) || [];
 let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 let beds = JSON.parse(localStorage.getItem("beds")) || [];
 let buildings = JSON.parse(localStorage.getItem("buildings")) || [];
+let emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
 
 if (beds.length === 0) {
 
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayBeds();
     updateBedDashboard();
     displayBuildings();
+    displayEmergencies();
 });
 
 
@@ -1005,4 +1007,308 @@ function deleteBuilding(id) {
     displayBuildings();
 
     alert("🗑️ Building record deleted successfully!");
+}
+/* ================= EMERGENCY MANAGEMENT ================= */
+
+function addEmergency(event) {
+
+    event.preventDefault();
+
+    let patientName =
+        document.getElementById("emergencyPatientName").value.trim();
+
+    let age =
+        document.getElementById("emergencyAge").value;
+
+    let emergencyType =
+        document.getElementById("emergencyType").value.trim();
+
+    let priority =
+        document.getElementById("emergencyPriority").value;
+
+    let doctor =
+        document.getElementById("emergencyDoctor").value;
+
+    if (
+        !patientName ||
+        !age ||
+        !emergencyType ||
+        !priority ||
+        !doctor
+    ) {
+
+        document.getElementById("emergencyMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all emergency details.
+            </div>
+        `;
+
+        return;
+    }
+
+    let emergency = {
+
+        id: Date.now(),
+
+        patientName: patientName,
+
+        age: age,
+
+        emergencyType: emergencyType,
+
+        priority: priority,
+
+        doctor: doctor,
+
+        dateTime: new Date().toLocaleString()
+
+    };
+
+    emergencies.push(emergency);
+
+    localStorage.setItem(
+        "emergencies",
+        JSON.stringify(emergencies)
+    );
+
+    document.getElementById("emergencyMessage").innerHTML = `
+
+        <div class="success-message">
+
+            <h3>✅ Emergency Case Added Successfully!</h3>
+
+            <p>
+                <strong>Patient:</strong>
+                ${emergency.patientName}
+            </p>
+
+            <p>
+                <strong>Age:</strong>
+                ${emergency.age}
+            </p>
+
+            <p>
+                <strong>Emergency:</strong>
+                ${emergency.emergencyType}
+            </p>
+
+            <p>
+                <strong>Priority:</strong>
+                ${emergency.priority}
+            </p>
+
+            <p>
+                <strong>Doctor:</strong>
+                ${emergency.doctor}
+            </p>
+
+        </div>
+
+    `;
+
+    document.querySelector("#emergency form").reset();
+
+    displayEmergencies();
+
+}
+
+
+/* ================= DISPLAY EMERGENCIES ================= */
+
+function displayEmergencies() {
+
+    let emergencyList =
+        document.getElementById("emergencyList");
+
+    if (!emergencyList) return;
+
+    if (emergencies.length === 0) {
+
+        emergencyList.innerHTML = `
+            <div class="error-message">
+                No emergency records available yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    emergencyList.innerHTML = `
+
+        <h3>🚑 Registered Emergency Cases</h3>
+
+        <p>
+            Total Emergency Cases:
+            <strong>${emergencies.length}</strong>
+        </p>
+
+    `;
+
+    emergencies.forEach(function(emergency) {
+
+        emergencyList.innerHTML += `
+
+            <div class="record-item">
+
+                <h3>
+                    🚑 ${emergency.patientName}
+                </h3>
+
+                <p>
+                    <strong>Age:</strong>
+                    ${emergency.age}
+                </p>
+
+                <p>
+                    <strong>Emergency Type:</strong>
+                    ${emergency.emergencyType}
+                </p>
+
+                <p>
+                    <strong>Priority:</strong>
+                    ${emergency.priority}
+                </p>
+
+                <p>
+                    <strong>Doctor:</strong>
+                    ${emergency.doctor}
+                </p>
+
+                <p>
+                    <strong>Date & Time:</strong>
+                    ${emergency.dateTime}
+                </p>
+
+                <button
+                    onclick="editEmergency(${emergency.id})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    onclick="deleteEmergency(${emergency.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* ================= EDIT EMERGENCY ================= */
+
+function editEmergency(id) {
+
+    let emergency = emergencies.find(function(e) {
+
+        return e.id === id;
+
+    });
+
+    if (!emergency) return;
+
+
+    let newName = prompt(
+        "Enter Patient Name:",
+        emergency.patientName
+    );
+
+    if (newName === null) return;
+
+
+    let newAge = prompt(
+        "Enter Age:",
+        emergency.age
+    );
+
+    if (newAge === null) return;
+
+
+    let newType = prompt(
+        "Enter Emergency Type:",
+        emergency.emergencyType
+    );
+
+    if (newType === null) return;
+
+
+    let newPriority = prompt(
+        "Enter Priority (Critical / High / Normal):",
+        emergency.priority
+    );
+
+    if (newPriority === null) return;
+
+
+    let newDoctor = prompt(
+        "Enter Doctor:",
+        emergency.doctor
+    );
+
+    if (newDoctor === null) return;
+
+
+    emergency.patientName = newName.trim();
+
+    emergency.age = newAge.trim();
+
+    emergency.emergencyType = newType.trim();
+
+    emergency.priority = newPriority.trim();
+
+    emergency.doctor = newDoctor.trim();
+
+
+    localStorage.setItem(
+        "emergencies",
+        JSON.stringify(emergencies)
+    );
+
+
+    displayEmergencies();
+
+
+    alert(
+        "✅ Emergency details updated successfully!"
+    );
+
+}
+
+
+/* ================= DELETE EMERGENCY ================= */
+
+function deleteEmergency(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this emergency record?"
+    );
+
+    if (!confirmDelete) return;
+
+
+    emergencies = emergencies.filter(
+        function(emergency) {
+
+            return emergency.id !== id;
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "emergencies",
+        JSON.stringify(emergencies)
+    );
+
+
+    displayEmergencies();
+
+
+    alert(
+        "🗑️ Emergency record deleted successfully!"
+    );
+
 }
