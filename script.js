@@ -3,6 +3,7 @@ let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 let beds = JSON.parse(localStorage.getItem("beds")) || [];
 let buildings = JSON.parse(localStorage.getItem("buildings")) || [];
 let emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
+let bills = JSON.parse(localStorage.getItem("bills")) || [];
 
 if (beds.length === 0) {
 
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateBedDashboard();
     displayBuildings();
     displayEmergencies();
+    displayBills();
 });
 
 
@@ -1311,4 +1313,308 @@ function deleteEmergency(id) {
         "🗑️ Emergency record deleted successfully!"
     );
 
+}
+/* ================= BILLING & PAYMENTS ================= */
+
+function addBill(event) {
+
+    event.preventDefault();
+
+    let patientName =
+        document.getElementById("billPatientName").value.trim();
+
+    let consultation =
+        Number(document.getElementById("consultationFee").value);
+
+    let room =
+        Number(document.getElementById("roomCharges").value);
+
+    let medicine =
+        Number(document.getElementById("medicineCharges").value);
+
+    let lab =
+        Number(document.getElementById("labCharges").value);
+
+    let paymentStatus =
+        document.getElementById("paymentStatus").value;
+
+    if (
+        !patientName ||
+        paymentStatus === ""
+    ) {
+        document.getElementById("billingMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all billing details.
+            </div>
+        `;
+        return;
+    }
+
+    let total =
+        consultation +
+        room +
+        medicine +
+        lab;
+
+    let bill = {
+
+        id: Date.now(),
+
+        patientName: patientName,
+
+        consultation: consultation,
+
+        room: room,
+
+        medicine: medicine,
+
+        lab: lab,
+
+        total: total,
+
+        paymentStatus: paymentStatus,
+
+        date: new Date().toLocaleDateString()
+
+    };
+
+    bills.push(bill);
+
+    localStorage.setItem(
+        "bills",
+        JSON.stringify(bills)
+    );
+
+    document.getElementById("billingMessage").innerHTML = `
+
+        <div class="success-message">
+
+            <h3>✅ Bill Generated Successfully!</h3>
+
+            <p>
+                <strong>Patient:</strong>
+                ${bill.patientName}
+            </p>
+
+            <p>
+                <strong>Total Amount:</strong>
+                ₹${bill.total}
+            </p>
+
+            <p>
+                <strong>Payment Status:</strong>
+                ${bill.paymentStatus}
+            </p>
+
+        </div>
+
+    `;
+
+    document.querySelector("#billing form").reset();
+
+    displayBills();
+}
+
+
+/* ================= DISPLAY BILLS ================= */
+
+function displayBills() {
+
+    let billingList =
+        document.getElementById("billingList");
+
+    if (!billingList) return;
+
+    if (bills.length === 0) {
+
+        billingList.innerHTML = `
+            <div class="error-message">
+                No billing records available yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    billingList.innerHTML = `
+
+        <h3>💰 Registered Billing Records</h3>
+
+        <p>
+            Total Bills:
+            <strong>${bills.length}</strong>
+        </p>
+
+    `;
+
+    bills.forEach(function(bill) {
+
+        billingList.innerHTML += `
+
+            <div class="record-item">
+
+                <h3>💰 ${bill.patientName}</h3>
+
+                <p>
+                    <strong>Bill ID:</strong>
+                    ${bill.id}
+                </p>
+
+                <p>
+                    <strong>Consultation:</strong>
+                    ₹${bill.consultation}
+                </p>
+
+                <p>
+                    <strong>Room / Bed:</strong>
+                    ₹${bill.room}
+                </p>
+
+                <p>
+                    <strong>Medicine:</strong>
+                    ₹${bill.medicine}
+                </p>
+
+                <p>
+                    <strong>Lab:</strong>
+                    ₹${bill.lab}
+                </p>
+
+                <p>
+                    <strong>Total:</strong>
+                    ₹${bill.total}
+                </p>
+
+                <p>
+                    <strong>Payment Status:</strong>
+                    ${bill.paymentStatus}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${bill.date}
+                </p>
+
+                <button
+                    onclick="editBill(${bill.id})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    onclick="deleteBill(${bill.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* ================= EDIT BILL ================= */
+
+function editBill(id) {
+
+    let bill = bills.find(function(b) {
+        return b.id === id;
+    });
+
+    if (!bill) return;
+
+    let newPatient = prompt(
+        "Enter Patient Name:",
+        bill.patientName
+    );
+
+    if (newPatient === null) return;
+
+    let newConsultation = prompt(
+        "Enter Consultation Fee:",
+        bill.consultation
+    );
+
+    if (newConsultation === null) return;
+
+    let newRoom = prompt(
+        "Enter Room / Bed Charges:",
+        bill.room
+    );
+
+    if (newRoom === null) return;
+
+    let newMedicine = prompt(
+        "Enter Medicine Charges:",
+        bill.medicine
+    );
+
+    if (newMedicine === null) return;
+
+    let newLab = prompt(
+        "Enter Lab Charges:",
+        bill.lab
+    );
+
+    if (newLab === null) return;
+
+    let newStatus = prompt(
+        "Enter Payment Status (Paid / Pending):",
+        bill.paymentStatus
+    );
+
+    if (newStatus === null) return;
+
+    bill.patientName = newPatient.trim();
+
+    bill.consultation = Number(newConsultation);
+
+    bill.room = Number(newRoom);
+
+    bill.medicine = Number(newMedicine);
+
+    bill.lab = Number(newLab);
+
+    bill.paymentStatus = newStatus.trim();
+
+    bill.total =
+        bill.consultation +
+        bill.room +
+        bill.medicine +
+        bill.lab;
+
+    localStorage.setItem(
+        "bills",
+        JSON.stringify(bills)
+    );
+
+    displayBills();
+
+    alert("✅ Bill details updated successfully!");
+}
+
+
+/* ================= DELETE BILL ================= */
+
+function deleteBill(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this billing record?"
+    );
+
+    if (!confirmDelete) return;
+
+    bills = bills.filter(function(bill) {
+        return bill.id !== id;
+    });
+
+    localStorage.setItem(
+        "bills",
+        JSON.stringify(bills)
+    );
+
+    displayBills();
+
+    alert("🗑️ Billing record deleted successfully!");
 }
