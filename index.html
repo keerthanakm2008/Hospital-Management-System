@@ -30,6 +30,7 @@
     <a href="#departments">Departments</a>
     <a href="#staff">Nurses / Staff</a>
     <a href="#reports">Reports</a>
+    <a href="#notifications">Notifications</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1167,6 +1168,83 @@
         </button>
 
         <div id="reportMessage"></div>
+
+    </div>
+
+</section>
+    <!-- NOTIFICATION MANAGEMENT -->
+
+<section id="notifications" class="section">
+
+    <div class="section-title">
+        <span>NOTIFICATIONS</span>
+        <h2>Hospital Notifications</h2>
+        <p>Send and manage important hospital notifications.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🔔 Add Notification</h2>
+
+        <form onsubmit="addNotification(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Notification Title</label>
+                    <input type="text"
+                           id="notificationTitle"
+                           placeholder="Enter notification title"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Notification Type</label>
+                    <select id="notificationType" required>
+                        <option value="">Select Type</option>
+                        <option>Appointment</option>
+                        <option>Emergency</option>
+                        <option>Medicine</option>
+                        <option>Lab Test</option>
+                        <option>General</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <input type="text"
+                           id="notificationMessage"
+                           placeholder="Enter notification message"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="notificationPriority" required>
+                        <option value="">Select Priority</option>
+                        <option>High</option>
+                        <option>Medium</option>
+                        <option>Low</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🔔 Add Notification
+            </button>
+
+        </form>
+
+        <div id="notificationSuccess"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🔔 Notification Records</h2>
+
+        <div id="notificationList"></div>
 
     </div>
 
