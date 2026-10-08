@@ -4,6 +4,7 @@ let beds = JSON.parse(localStorage.getItem("beds")) || [];
 let buildings = JSON.parse(localStorage.getItem("buildings")) || [];
 let emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
 let bills = JSON.parse(localStorage.getItem("bills")) || [];
+let labTests = JSON.parse(localStorage.getItem("labTests")) || [];
 
 if (beds.length === 0) {
 
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayBuildings();
     displayEmergencies();
     displayBills();
+    displayLabTests();
 });
 
 
@@ -1617,4 +1619,220 @@ function deleteBill(id) {
     displayBills();
 
     alert("🗑️ Billing record deleted successfully!");
+}
+function addLabTest(event) {
+    event.preventDefault();
+
+    let patientName =
+        document.getElementById("labPatientName").value.trim();
+
+    let testName =
+        document.getElementById("labTestName").value;
+
+    let result =
+        document.getElementById("labResult").value.trim();
+
+    let technician =
+        document.getElementById("labTechnician").value.trim();
+
+    let status =
+        document.getElementById("labStatus").value;
+
+    if (
+        !patientName ||
+        !testName ||
+        !result ||
+        !technician ||
+        !status
+    ) {
+        document.getElementById("labMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all laboratory details.
+            </div>
+        `;
+        return;
+    }
+
+    let labTest = {
+        id: Date.now(),
+        patientName: patientName,
+        testName: testName,
+        result: result,
+        technician: technician,
+        status: status,
+        date: new Date().toLocaleDateString()
+    };
+
+    labTests.push(labTest);
+
+    localStorage.setItem(
+        "labTests",
+        JSON.stringify(labTests)
+    );
+
+    document.getElementById("labMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Lab Test Added Successfully!</h3>
+            <p><strong>Patient:</strong> ${labTest.patientName}</p>
+            <p><strong>Test:</strong> ${labTest.testName}</p>
+            <p><strong>Result:</strong> ${labTest.result}</p>
+            <p><strong>Status:</strong> ${labTest.status}</p>
+        </div>
+    `;
+
+    document.querySelector("#lab form").reset();
+
+    displayLabTests();
+}
+
+
+function displayLabTests() {
+
+    let labList =
+        document.getElementById("labList");
+
+    if (!labList) return;
+
+    if (labTests.length === 0) {
+        labList.innerHTML = `
+            <div class="error-message">
+                No laboratory records available yet.
+            </div>
+        `;
+        return;
+    }
+
+    labList.innerHTML = `
+        <h3>🧪 Registered Lab Tests</h3>
+        <p>Total Lab Tests:
+            <strong>${labTests.length}</strong>
+        </p>
+    `;
+
+    labTests.forEach(function(test) {
+
+        labList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🧪 ${test.patientName}</h3>
+
+                <p>
+                    <strong>Test:</strong>
+                    ${test.testName}
+                </p>
+
+                <p>
+                    <strong>Result:</strong>
+                    ${test.result}
+                </p>
+
+                <p>
+                    <strong>Technician:</strong>
+                    ${test.technician}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${test.status}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${test.date}
+                </p>
+
+                <button onclick="editLabTest(${test.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteLabTest(${test.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editLabTest(id) {
+
+    let test = labTests.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!test) return;
+
+    let newPatient = prompt(
+        "Enter Patient Name:",
+        test.patientName
+    );
+
+    if (newPatient === null) return;
+
+    let newTest = prompt(
+        "Enter Test Name:",
+        test.testName
+    );
+
+    if (newTest === null) return;
+
+    let newResult = prompt(
+        "Enter Test Result:",
+        test.result
+    );
+
+    if (newResult === null) return;
+
+    let newTechnician = prompt(
+        "Enter Lab Technician:",
+        test.technician
+    );
+
+    if (newTechnician === null) return;
+
+    let newStatus = prompt(
+        "Enter Status (Pending / Completed):",
+        test.status
+    );
+
+    if (newStatus === null) return;
+
+    test.patientName = newPatient.trim();
+    test.testName = newTest.trim();
+    test.result = newResult.trim();
+    test.technician = newTechnician.trim();
+    test.status = newStatus.trim();
+
+    localStorage.setItem(
+        "labTests",
+        JSON.stringify(labTests)
+    );
+
+    displayLabTests();
+
+    alert("✅ Lab test updated successfully!");
+}
+
+
+function deleteLabTest(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this lab test?"
+    );
+
+    if (!confirmDelete) return;
+
+    labTests = labTests.filter(function(test) {
+        return test.id !== id;
+    });
+
+    localStorage.setItem(
+        "labTests",
+        JSON.stringify(labTests)
+    );
+
+    displayLabTests();
+
+    alert("🗑️ Lab test deleted successfully!");
 }
