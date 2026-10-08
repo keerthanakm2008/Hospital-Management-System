@@ -24,6 +24,7 @@
     <a href="#beds">Beds</a>
     <a href="#buildings">Buildings</a>
     <a href="#emergency">Emergency</a>
+    <a href="#billing">Billing</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -668,6 +669,98 @@
         <h2>🚑 Emergency Records</h2>
 
         <div id="emergencyList"></div>
+
+    </div>
+
+</section>
+    <!-- BILLING & PAYMENTS -->
+
+<section id="billing" class="section">
+
+    <div class="section-title">
+        <span>BILLING & PAYMENTS</span>
+        <h2>Patient Billing Management</h2>
+        <p>Manage hospital bills and payment status easily.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>💰 Create Patient Bill</h2>
+
+        <form onsubmit="addBill(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           id="billPatientName"
+                           placeholder="Enter patient name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Consultation Fee</label>
+                    <input type="number"
+                           id="consultationFee"
+                           placeholder="Enter amount"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Room / Bed Charges</label>
+                    <input type="number"
+                           id="roomCharges"
+                           placeholder="Enter amount"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Medicine Charges</label>
+                    <input type="number"
+                           id="medicineCharges"
+                           placeholder="Enter amount"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Lab Charges</label>
+                    <input type="number"
+                           id="labCharges"
+                           placeholder="Enter amount"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Status</label>
+                    <select id="paymentStatus" required>
+                        <option value="">Select Status</option>
+                        <option>Paid</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                💰 Generate Bill
+            </button>
+
+        </form>
+
+        <div id="billingMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>💰 Billing Records</h2>
+
+        <div id="billingList"></div>
 
     </div>
 
