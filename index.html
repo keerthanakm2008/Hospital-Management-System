@@ -23,6 +23,7 @@
     <a href="#medicines">Medicines</a>
     <a href="#beds">Beds</a>
     <a href="#buildings">Buildings</a>
+    <a href="#emergency">Emergency</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -582,6 +583,91 @@
         <h2>🏢 Building Records</h2>
 
         <div id="buildingList"></div>
+
+    </div>
+
+</section>
+    <!-- EMERGENCY MANAGEMENT -->
+
+<section id="emergency" class="section">
+
+    <div class="section-title">
+        <span>EMERGENCY MANAGEMENT</span>
+        <h2>Emergency Patient Management</h2>
+        <p>Manage emergency patients and priority cases efficiently.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🚑 Add Emergency Patient</h2>
+
+        <form onsubmit="addEmergency(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           id="emergencyPatientName"
+                           placeholder="Enter patient name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number"
+                           id="emergencyAge"
+                           placeholder="Enter age"
+                           min="1"
+                           max="120"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Emergency Type</label>
+                    <input type="text"
+                           id="emergencyType"
+                           placeholder="Example: Accident, Fever"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="emergencyPriority" required>
+                        <option value="">Select Priority</option>
+                        <option>Critical</option>
+                        <option>High</option>
+                        <option>Normal</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Assigned Doctor</label>
+                    <select id="emergencyDoctor" required>
+                        <option value="">Select Doctor</option>
+                        <option>Dr. Arun</option>
+                        <option>Dr. Priya</option>
+                        <option>Dr. Kumar</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🚑 Add Emergency Case
+            </button>
+
+        </form>
+
+        <div id="emergencyMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🚑 Emergency Records</h2>
+
+        <div id="emergencyList"></div>
 
     </div>
 
