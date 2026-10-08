@@ -6,6 +6,7 @@ let emergencies = JSON.parse(localStorage.getItem("emergencies")) || [];
 let bills = JSON.parse(localStorage.getItem("bills")) || [];
 let labTests = JSON.parse(localStorage.getItem("labTests")) || [];
 let bloodStocks = JSON.parse(localStorage.getItem("bloodStocks")) || [];
+let departments = JSON.parse(localStorage.getItem("departments")) || [];
 
 if (beds.length === 0) {
 
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayBills();
     displayLabTests();
     displayBloodStocks();
+    displayDepartments();
 });
 
 
@@ -2035,4 +2037,191 @@ function deleteBloodStock(id) {
     displayBloodStocks();
 
     alert("🗑️ Blood stock deleted successfully!");
+}
+function addDepartment(event) {
+    event.preventDefault();
+
+    let name =
+        document.getElementById("departmentName").value.trim();
+
+    let doctor =
+        document.getElementById("departmentDoctor").value.trim();
+
+    let location =
+        document.getElementById("departmentLocation").value.trim();
+
+    let contact =
+        document.getElementById("departmentContact").value.trim();
+
+    if (!name || !doctor || !location || !contact) {
+        document.getElementById("departmentMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all department details.
+            </div>
+        `;
+        return;
+    }
+
+    let department = {
+        id: Date.now(),
+        name: name,
+        doctor: doctor,
+        location: location,
+        contact: contact
+    };
+
+    departments.push(department);
+
+    localStorage.setItem(
+        "departments",
+        JSON.stringify(departments)
+    );
+
+    document.getElementById("departmentMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Department Added Successfully!</h3>
+            <p><strong>Department:</strong> ${department.name}</p>
+            <p><strong>Head Doctor:</strong> ${department.doctor}</p>
+            <p><strong>Location:</strong> ${department.location}</p>
+            <p><strong>Contact:</strong> ${department.contact}</p>
+        </div>
+    `;
+
+    document.querySelector("#departments form").reset();
+
+    displayDepartments();
+}
+
+
+function displayDepartments() {
+
+    let departmentList =
+        document.getElementById("departmentList");
+
+    if (!departmentList) return;
+
+    if (departments.length === 0) {
+        departmentList.innerHTML = `
+            <div class="error-message">
+                No department records available yet.
+            </div>
+        `;
+        return;
+    }
+
+    departmentList.innerHTML = `
+        <h3>🏥 Registered Departments</h3>
+        <p>Total Departments:
+            <strong>${departments.length}</strong>
+        </p>
+    `;
+
+    departments.forEach(function(department) {
+
+        departmentList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🏥 ${department.name}</h3>
+
+                <p>
+                    <strong>Head Doctor:</strong>
+                    ${department.doctor}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    ${department.location}
+                </p>
+
+                <p>
+                    <strong>Contact:</strong>
+                    ${department.contact}
+                </p>
+
+                <button onclick="editDepartment(${department.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteDepartment(${department.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editDepartment(id) {
+
+    let department = departments.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!department) return;
+
+    let newName = prompt(
+        "Enter Department Name:",
+        department.name
+    );
+
+    if (newName === null) return;
+
+    let newDoctor = prompt(
+        "Enter Head Doctor:",
+        department.doctor
+    );
+
+    if (newDoctor === null) return;
+
+    let newLocation = prompt(
+        "Enter Location / Floor:",
+        department.location
+    );
+
+    if (newLocation === null) return;
+
+    let newContact = prompt(
+        "Enter Contact Number:",
+        department.contact
+    );
+
+    if (newContact === null) return;
+
+    department.name = newName.trim();
+    department.doctor = newDoctor.trim();
+    department.location = newLocation.trim();
+    department.contact = newContact.trim();
+
+    localStorage.setItem(
+        "departments",
+        JSON.stringify(departments)
+    );
+
+    displayDepartments();
+
+    alert("✅ Department updated successfully!");
+}
+
+
+function deleteDepartment(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this department?"
+    );
+
+    if (!confirmDelete) return;
+
+    departments = departments.filter(function(department) {
+        return department.id !== id;
+    });
+
+    localStorage.setItem(
+        "departments",
+        JSON.stringify(departments)
+    );
+
+    displayDepartments();
+
+    alert("🗑️ Department deleted successfully!");
 }
