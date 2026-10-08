@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayBloodStocks();
     displayDepartments();
     displayStaff();
+    updateReports();
 });
 
 
@@ -2431,4 +2432,100 @@ function deleteStaff(id) {
     displayStaff();
 
     alert("🗑️ Staff record deleted successfully!");
+}
+function updateReports() {
+
+    let reportPatients =
+        document.getElementById("reportPatients");
+
+    if (!reportPatients) return;
+
+    document.getElementById("reportPatients").textContent =
+        patients.length;
+
+    document.getElementById("reportAppointments").textContent =
+        appointments.length;
+
+    document.getElementById("reportEmergencies").textContent =
+        emergencies.length;
+
+    document.getElementById("reportBills").textContent =
+        bills.length;
+
+    document.getElementById("reportLabTests").textContent =
+        labTests.length;
+
+    document.getElementById("reportBlood").textContent =
+        bloodStocks.length;
+
+    document.getElementById("reportStaff").textContent =
+        staffMembers.length;
+
+    document.getElementById("reportDepartments").textContent =
+        departments.length;
+}
+
+
+function generateReport() {
+
+    updateReports();
+
+    let totalRevenue = 0;
+
+    bills.forEach(function(bill) {
+        totalRevenue += Number(bill.total) || 0;
+    });
+
+    document.getElementById("reportMessage").innerHTML = `
+        <div class="success-message">
+
+            <h3>📊 Hospital Report Generated</h3>
+
+            <p>
+                <strong>Total Patients:</strong>
+                ${patients.length}
+            </p>
+
+            <p>
+                <strong>Total Appointments:</strong>
+                ${appointments.length}
+            </p>
+
+            <p>
+                <strong>Emergency Cases:</strong>
+                ${emergencies.length}
+            </p>
+
+            <p>
+                <strong>Lab Tests:</strong>
+                ${labTests.length}
+            </p>
+
+            <p>
+                <strong>Blood Records:</strong>
+                ${bloodStocks.length}
+            </p>
+
+            <p>
+                <strong>Departments:</strong>
+                ${departments.length}
+            </p>
+
+            <p>
+                <strong>Staff Members:</strong>
+                ${staffMembers.length}
+            </p>
+
+            <p>
+                <strong>Total Billing:</strong>
+                ₹${totalRevenue}
+            </p>
+
+            <p>
+                <strong>Report Date:</strong>
+                ${new Date().toLocaleString()}
+            </p>
+
+        </div>
+    `;
 }
