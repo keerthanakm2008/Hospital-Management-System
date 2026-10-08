@@ -26,6 +26,7 @@
     <a href="#emergency">Emergency</a>
     <a href="#billing">Billing</a>
     <a href="#lab">Lab Tests</a>
+    <a href="#bloodbank">Blood Bank</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -847,6 +848,86 @@
         <h2>🧪 Laboratory Records</h2>
 
         <div id="labList"></div>
+
+    </div>
+
+</section>
+    <!-- BLOOD BANK MANAGEMENT -->
+
+<section id="bloodbank" class="section">
+
+    <div class="section-title">
+        <span>BLOOD BANK MANAGEMENT</span>
+        <h2>Blood Bank Management</h2>
+        <p>Manage blood groups, donors and blood availability.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🩸 Add Blood Stock</h2>
+
+        <form onsubmit="addBloodStock(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <select id="bloodGroup" required>
+                        <option value="">Select Blood Group</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Donor Name</label>
+                    <input type="text"
+                           id="donorName"
+                           placeholder="Enter donor name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Units Available</label>
+                    <input type="number"
+                           id="bloodUnits"
+                           placeholder="Enter units"
+                           min="1"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Blood Status</label>
+                    <select id="bloodStatus" required>
+                        <option value="">Select Status</option>
+                        <option>Available</option>
+                        <option>Reserved</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🩸 Add Blood Stock
+            </button>
+
+        </form>
+
+        <div id="bloodMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🩸 Blood Bank Records</h2>
+
+        <div id="bloodList"></div>
 
     </div>
 
