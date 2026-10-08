@@ -646,3 +646,142 @@ nav a {
         grid-template-columns: 1fr;
     }
 }
+/* ================= BED MANAGEMENT ================= */
+
+.bed-dashboard {
+    max-width: 1000px;
+    margin: 0 auto 35px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.bed-stat {
+    background: white;
+    padding: 25px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e4edf0;
+}
+
+.bed-stat div {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.bed-stat h3 {
+    font-size: 30px;
+    color: #087f8c;
+}
+
+.bed-stat p {
+    color: #607d8b;
+    font-weight: bold;
+}
+
+.bed-occupied h3 {
+    color: #d9534f;
+}
+
+#bedList {
+    margin-top: 25px;
+}
+
+.bed-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: #f7fbfc;
+    border: 1px solid #dcecef;
+}
+
+.bed-icon {
+    font-size: 40px;
+}
+
+.bed-info {
+    flex: 1;
+}
+
+.bed-info h3 {
+    color: #183b45;
+    margin-bottom: 5px;
+}
+
+.bed-info p {
+    color: #607d8b;
+    margin: 3px 0;
+}
+
+.bed-status {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.bed-available {
+    border-left: 5px solid #2e9d62;
+}
+
+.bed-available .bed-status {
+    background: #e5f8ef;
+    color: #16804b;
+}
+
+.bed-occupied {
+    border-left: 5px solid #d9534f;
+}
+
+.bed-occupied .bed-status {
+    background: #fff0f0;
+    color: #b52f2b;
+}
+
+.release-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 7px;
+    background: #d9534f;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.release-btn:hover {
+    background: #b52f2b;
+}
+
+
+/* ================= BED RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .bed-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .bed-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .bed-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .release-btn {
+        width: 100%;
+    }
+
+}
