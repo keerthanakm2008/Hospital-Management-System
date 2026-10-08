@@ -38,10 +38,6 @@
             font-weight: bold;
         }
 
-        button:hover {
-            background: #05636d;
-        }
-
         #logoutSection {
             display: none;
         }
@@ -50,122 +46,95 @@
 
 <body>
 
-    <div class="login-box">
+<div class="login-box">
 
-        <h1>🏥 HospitalCare</h1>
+    <h1>🏥 HospitalCare</h1>
+
+    <!-- LOGIN -->
+    <div id="loginSection">
+
         <h2>Login</h2>
 
-        <div id="loginSection">
+        <label>Username:</label><br>
+        <input type="text" id="username" placeholder="Enter username">
 
-            <label>Username:</label><br>
+        <br>
 
-            <input type="text"
-                   id="username"
-                   placeholder="Enter username">
+        <label>Password:</label><br>
+        <input type="password" id="password" placeholder="Enter password">
 
-            <br>
+        <br><br>
 
-            <label>Password:</label><br>
-
-            <input type="password"
-                   id="password"
-                   placeholder="Enter password">
-
-            <br><br>
-
-            <button onclick="loginUser()">
-                🔐 Login
-            </button>
-
-        </div>
-
-
-        <div id="logoutSection">
-
-            <h3>✅ You are logged in!</h3>
-
-            <button onclick="logoutUser()">
-                🚪 Logout
-            </button>
-
-        </div>
+        <button onclick="loginUser()">🔐 Login</button>
 
     </div>
 
 
-    <script>
+    <!-- LOGOUT -->
+    <div id="logoutSection">
 
-        /* ================= LOGIN ================= */
+        <h2>✅ Login Successful!</h2>
 
-        function loginUser() {
+        <p>You are logged in.</p>
 
-            let username =
-                document.getElementById("username").value.trim();
+        <button onclick="logoutUser()">🚪 Logout</button>
 
-            let password =
-                document.getElementById("password").value;
+    </div>
 
-            if (username === "admin" && password === "1234") {
-
-                localStorage.setItem(
-                    "isLoggedIn",
-                    "true"
-                );
-
-                alert("✅ Login Successful!");
-
-                showLogout();
-
-            } else {
-
-                alert("❌ Invalid Username or Password!");
-
-            }
-        }
+</div>
 
 
-        /* ================= SHOW LOGOUT ================= */
+<script>
 
-        function showLogout() {
+function loginUser() {
 
-            document.getElementById("loginSection")
-                .style.display = "none";
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value;
 
-            document.getElementById("logoutSection")
-                .style.display = "block";
-        }
+    if (username === "admin" && password === "1234") {
 
+        localStorage.setItem("isLoggedIn", "true");
 
-        /* ================= LOGOUT ================= */
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("logoutSection").style.display = "block";
 
-        function logoutUser() {
+        alert("✅ Login Successful!");
 
-            localStorage.removeItem("isLoggedIn");
+    } else {
 
-            alert("✅ Logged out successfully!");
+        alert("❌ Invalid Username or Password!");
 
-            document.getElementById("logoutSection")
-                .style.display = "none";
-
-            document.getElementById("loginSection")
-                .style.display = "block";
-
-            document.getElementById("username").value = "";
-            document.getElementById("password").value = "";
-        }
+    }
+}
 
 
-        /* ================= CHECK LOGIN ================= */
+function logoutUser() {
 
-        window.onload = function () {
+    localStorage.removeItem("isLoggedIn");
 
-            if (localStorage.getItem("isLoggedIn") === "true") {
-                showLogout();
-            }
+    document.getElementById("logoutSection").style.display = "none";
+    document.getElementById("loginSection").style.display = "block";
 
-        };
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
 
-    </script>
+    alert("✅ Logged out successfully!");
+
+}
+
+
+window.onload = function() {
+
+    if (localStorage.getItem("isLoggedIn") === "true") {
+
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("logoutSection").style.display = "block";
+
+    }
+
+};
+
+</script>
 
 </body>
 </html>
