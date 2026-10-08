@@ -29,6 +29,7 @@
     <a href="#bloodbank">Blood Bank</a>
     <a href="#departments">Departments</a>
     <a href="#staff">Nurses / Staff</a>
+    <a href="#reports">Reports</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1088,6 +1089,84 @@
         <h2>👩‍⚕️ Staff Records</h2>
 
         <div id="staffList"></div>
+
+    </div>
+
+</section>
+    <!-- REPORTS & ANALYTICS -->
+
+<section id="reports" class="section">
+
+    <div class="section-title">
+        <span>REPORTS & ANALYTICS</span>
+        <h2>Hospital Reports</h2>
+        <p>View hospital management statistics and summary reports.</p>
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+            <h3>👨‍⚕️ Patients</h3>
+            <h2 id="reportPatients">0</h2>
+            <p>Registered Patients</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>📅 Appointments</h3>
+            <h2 id="reportAppointments">0</h2>
+            <p>Total Appointments</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>🚑 Emergency</h3>
+            <h2 id="reportEmergencies">0</h2>
+            <p>Emergency Cases</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>💰 Bills</h3>
+            <h2 id="reportBills">0</h2>
+            <p>Total Bills</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>🧪 Lab Tests</h3>
+            <h2 id="reportLabTests">0</h2>
+            <p>Total Lab Tests</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>🩸 Blood Stock</h3>
+            <h2 id="reportBlood">0</h2>
+            <p>Blood Records</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>👩‍⚕️ Staff</h3>
+            <h2 id="reportStaff">0</h2>
+            <p>Total Staff</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>🏥 Departments</h3>
+            <h2 id="reportDepartments">0</h2>
+            <p>Total Departments</p>
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <h2>📊 Generate Report</h2>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="generateReport()">
+            📊 Generate Hospital Report
+        </button>
+
+        <div id="reportMessage"></div>
 
     </div>
 
