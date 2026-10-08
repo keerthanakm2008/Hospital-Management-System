@@ -21,6 +21,7 @@
     <a href="#appointment">Appointments</a>
     <a href="#records">Records</a>
     <a href="#medicines">Medicines</a>
+    <a href="#beds">Beds</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -410,6 +411,93 @@
         Medicine information is for general project demonstration only.
         Patients should use medicines only according to advice from a qualified healthcare professional.
     </div>
+</section>
+<!-- BED MANAGEMENT -->
+
+<section id="beds" class="section">
+
+    <div class="section-title">
+        <span>BED MANAGEMENT</span>
+        <h2>Hospital Bed Management</h2>
+        <p>Manage available and occupied hospital beds.</p>
+    </div>
+
+    <div class="bed-dashboard">
+
+        <div class="bed-stat">
+            <div>🛏️</div>
+            <h3 id="totalBeds">12</h3>
+            <p>Total Beds</p>
+        </div>
+
+        <div class="bed-stat available-bed">
+            <div>🟢</div>
+            <h3 id="availableBeds">12</h3>
+            <p>Available Beds</p>
+        </div>
+
+        <div class="bed-stat occupied-bed">
+            <div>🔴</div>
+            <h3 id="occupiedBeds">0</h3>
+            <p>Occupied Beds</p>
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <h2>🛏️ Assign Bed</h2>
+
+        <form onsubmit="assignBed(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           id="bedPatientName"
+                           placeholder="Enter patient name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Bed</label>
+                    <select id="bedNumber" required>
+                        <option value="">Choose Bed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Ward</label>
+                    <select id="bedWard" required>
+                        <option value="">Select Ward</option>
+                        <option>General Ward</option>
+                        <option>ICU</option>
+                        <option>Emergency Ward</option>
+                        <option>Private Ward</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🛏️ Assign Bed
+            </button>
+
+        </form>
+
+        <div id="bedMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🛏️ Bed Records</h2>
+
+        <div id="bedList"></div>
+
+    </div>
+
 </section>
 
 <!-- CONTACT -->
