@@ -785,3 +785,38 @@ nav a {
     }
 
 }
+/* ================= BED ACTION BUTTONS ================= */
+
+.bed-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.edit-bed-btn,
+.delete-bed-btn {
+    padding: 9px 13px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-bed-btn {
+    background: #087f8c;
+    color: white;
+}
+
+.edit-bed-btn:hover {
+    background: #05636d;
+}
+
+.delete-bed-btn {
+    background: #d9534f;
+    color: white;
+}
+
+.delete-bed-btn:hover {
+    background: #b52f2b;
+}
