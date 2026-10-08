@@ -1,10 +1,30 @@
  let patients = JSON.parse(localStorage.getItem("patients")) || [];
 let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+let beds = JSON.parse(localStorage.getItem("beds")) || [];
+
+if (beds.length === 0) {
+
+    for (let i = 1; i <= 12; i++) {
+
+        beds.push({
+            number: "B-" + String(i).padStart(3, "0"),
+            status: "Available",
+            patient: "",
+            ward: ""
+        });
+
+    }
+
+    localStorage.setItem("beds", JSON.stringify(beds));
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     updateDashboard();
     displayRecords();
     displayAppointments();
+    loadBedOptions();
+    displayBeds();
+    updateBedDashboard();
 });
 
 
