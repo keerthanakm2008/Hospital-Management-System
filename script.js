@@ -1,6 +1,7 @@
- let patients = JSON.parse(localStorage.getItem("patients")) || [];
+let patients = JSON.parse(localStorage.getItem("patients")) || [];
 let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 let beds = JSON.parse(localStorage.getItem("beds")) || [];
+let buildings = JSON.parse(localStorage.getItem("buildings")) || [];
 
 if (beds.length === 0) {
 
@@ -16,7 +17,7 @@ if (beds.length === 0) {
     }
 
     localStorage.setItem("beds", JSON.stringify(beds));
-}
+} 
 
 document.addEventListener("DOMContentLoaded", function () {
     updateDashboard();
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadBedOptions();
     displayBeds();
     updateBedDashboard();
+    displayBuildings();
 });
 
 
@@ -778,4 +780,229 @@ function updateBedDashboard() {
 
     if (occupiedBeds)
         occupiedBeds.textContent = occupied;
+}
+/* ================= BUILDING MANAGEMENT ================= */
+
+function addBuilding(event) {
+    event.preventDefault();
+
+    let buildingName =
+        document.getElementById("buildingName").value.trim();
+
+    let floorNumber =
+        document.getElementById("floorNumber").value;
+
+    let roomNumber =
+        document.getElementById("roomNumber").value.trim();
+
+    let department =
+        document.getElementById("buildingDepartment").value;
+
+    let totalBeds =
+        document.getElementById("buildingBeds").value;
+
+    if (
+        !buildingName ||
+        !floorNumber ||
+        !roomNumber ||
+        !department ||
+        !totalBeds
+    ) {
+        document.getElementById("buildingMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all building details.
+            </div>
+        `;
+
+        return;
+    }
+
+    let building = {
+        id: Date.now(),
+        buildingName: buildingName,
+        floorNumber: floorNumber,
+        roomNumber: roomNumber,
+        department: department,
+        totalBeds: Number(totalBeds)
+    };
+
+    buildings.push(building);
+
+    localStorage.setItem(
+        "buildings",
+        JSON.stringify(buildings)
+    );
+
+    document.getElementById("buildingMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Building Added Successfully!</h3>
+            <p><strong>Building:</strong> ${building.buildingName}</p>
+            <p><strong>Floor:</strong> ${building.floorNumber}</p>
+            <p><strong>Room:</strong> ${building.roomNumber}</p>
+            <p><strong>Department:</strong> ${building.department}</p>
+            <p><strong>Total Beds:</strong> ${building.totalBeds}</p>
+        </div>
+    `;
+
+    document.querySelector("#buildings form").reset();
+
+    displayBuildings();
+}
+
+
+/* ================= DISPLAY BUILDINGS ================= */
+
+function displayBuildings() {
+
+    let buildingList =
+        document.getElementById("buildingList");
+
+    if (!buildingList) return;
+
+    if (buildings.length === 0) {
+
+        buildingList.innerHTML = `
+            <div class="error-message">
+                No building records available yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    buildingList.innerHTML = `
+        <h3>🏢 Registered Buildings</h3>
+        <p>
+            Total Buildings / Rooms:
+            <strong>${buildings.length}</strong>
+        </p>
+    `;
+
+    buildings.forEach(function(building) {
+
+        buildingList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🏢 ${building.buildingName}</h3>
+
+                <p>
+                    <strong>Floor:</strong>
+                    ${building.floorNumber}
+                </p>
+
+                <p>
+                    <strong>Room:</strong>
+                    ${building.roomNumber}
+                </p>
+
+                <p>
+                    <strong>Department:</strong>
+                    ${building.department}
+                </p>
+
+                <p>
+                    <strong>Total Beds:</strong>
+                    ${building.totalBeds}
+                </p>
+
+                <button
+                    onclick="editBuilding(${building.id})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    onclick="deleteBuilding(${building.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+/* ================= EDIT BUILDING ================= */
+
+function editBuilding(id) {
+
+    let building = buildings.find(function(b) {
+        return b.id === id;
+    });
+
+    if (!building) return;
+
+    let newName = prompt(
+        "Enter Building Name:",
+        building.buildingName
+    );
+
+    if (newName === null) return;
+
+    let newFloor = prompt(
+        "Enter Floor Number:",
+        building.floorNumber
+    );
+
+    if (newFloor === null) return;
+
+    let newRoom = prompt(
+        "Enter Room Number:",
+        building.roomNumber
+    );
+
+    if (newRoom === null) return;
+
+    let newDepartment = prompt(
+        "Enter Department:",
+        building.department
+    );
+
+    if (newDepartment === null) return;
+
+    let newBeds = prompt(
+        "Enter Total Beds:",
+        building.totalBeds
+    );
+
+    if (newBeds === null) return;
+
+    building.buildingName = newName.trim();
+    building.floorNumber = newFloor.trim();
+    building.roomNumber = newRoom.trim();
+    building.department = newDepartment.trim();
+    building.totalBeds = Number(newBeds);
+
+    localStorage.setItem(
+        "buildings",
+        JSON.stringify(buildings)
+    );
+
+    displayBuildings();
+
+    alert("✅ Building details updated successfully!");
+}
+
+
+/* ================= DELETE BUILDING ================= */
+
+function deleteBuilding(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this building record?"
+    );
+
+    if (!confirmDelete) return;
+
+    buildings = buildings.filter(function(building) {
+        return building.id !== id;
+    });
+
+    localStorage.setItem(
+        "buildings",
+        JSON.stringify(buildings)
+    );
+
+    displayBuildings();
+
+    alert("🗑️ Building record deleted successfully!");
 }
