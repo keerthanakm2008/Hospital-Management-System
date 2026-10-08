@@ -567,11 +567,9 @@ function assignBed(event) {
 
 
 /* ================= DISPLAY BEDS ================= */
-
 function displayBeds() {
 
-    let bedList =
-        document.getElementById("bedList");
+    let bedList = document.getElementById("bedList");
 
     if (!bedList) return;
 
@@ -610,26 +608,112 @@ function displayBeds() {
 
                 </div>
 
-                ${
-                    bed.status === "Occupied"
-                    ?
-                    `<button
-                        class="release-btn"
-                        onclick="releaseBed('${bed.number}')">
-                        🔓 Release Bed
-                    </button>`
-                    :
-                    ""
-                }
+                <div class="bed-actions">
+
+                    <button
+                        class="edit-bed-btn"
+                        onclick="editBed('${bed.number}')">
+                        ✏️ Edit
+                    </button>
+
+                    <button
+                        class="delete-bed-btn"
+                        onclick="deleteBed('${bed.number}')">
+                        🗑️ Delete
+                    </button>
+
+                    ${
+                        bed.status === "Occupied"
+                        ?
+                        `<button
+                            class="release-btn"
+                            onclick="releaseBed('${bed.number}')">
+                            🔓 Release
+                        </button>`
+                        :
+                        ""
+                    }
+
+                </div>
 
             </div>
 
         `;
-
     });
+}
+/* ================= EDIT BED ================= */
+
+function editBed(bedNumber) {
+
+    let bed = beds.find(function (b) {
+        return b.number === bedNumber;
+    });
+
+    if (!bed) return;
+
+    let newPatient = prompt(
+        "Enter Patient Name:",
+        bed.patient
+    );
+
+    if (newPatient === null) return;
+
+    let newWard = prompt(
+        "Enter Ward:",
+        bed.ward
+    );
+
+    if (newWard === null) return;
+
+    bed.patient = newPatient.trim();
+    bed.ward = newWard.trim();
+
+    if (bed.patient === "") {
+        bed.status = "Available";
+    } else {
+        bed.status = "Occupied";
+    }
+
+    localStorage.setItem(
+        "beds",
+        JSON.stringify(beds)
+    );
+
+    displayBeds();
+    loadBedOptions();
+    updateBedDashboard();
+
+    alert("✅ Bed details updated successfully!");
 }
 
 
+/* ================= DELETE BED ================= */
+
+function deleteBed(bedNumber) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this bed record?"
+    );
+
+    if (!confirmDelete) return;
+
+    beds = beds.filter(function (bed) {
+        return bed.number !== bedNumber;
+    });
+
+    localStorage.setItem(
+        "beds",
+        JSON.stringify(beds)
+    );
+
+    displayBeds();
+    loadBedOptions();
+    updateBedDashboard();
+
+    alert("🗑️ Bed record deleted successfully!");
+}
+
+  
 /* ================= RELEASE BED ================= */
 
 function releaseBed(bedNumber) {
