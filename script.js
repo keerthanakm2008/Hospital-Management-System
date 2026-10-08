@@ -9,6 +9,8 @@ let bloodStocks = JSON.parse(localStorage.getItem("bloodStocks")) || [];
 let departments = JSON.parse(localStorage.getItem("departments")) || [];
 let staffMembers =
     JSON.parse(localStorage.getItem("staffMembers")) || [];
+let notifications =
+    JSON.parse(localStorage.getItem("notifications")) || [];
 
 if (beds.length === 0) {
 
@@ -41,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayDepartments();
     displayStaff();
     updateReports();
+    displayNotifications();
 });
 
 
@@ -2528,4 +2531,198 @@ function generateReport() {
 
         </div>
     `;
+}
+function addNotification(event) {
+    event.preventDefault();
+
+    let title =
+        document.getElementById("notificationTitle").value.trim();
+
+    let type =
+        document.getElementById("notificationType").value;
+
+    let message =
+        document.getElementById("notificationMessage").value.trim();
+
+    let priority =
+        document.getElementById("notificationPriority").value;
+
+    if (!title || !type || !message || !priority) {
+        document.getElementById("notificationSuccess").innerHTML = `
+            <div class="error-message">
+                Please fill in all notification details.
+            </div>
+        `;
+        return;
+    }
+
+    let notification = {
+        id: Date.now(),
+        title: title,
+        type: type,
+        message: message,
+        priority: priority,
+        date: new Date().toLocaleString()
+    };
+
+    notifications.push(notification);
+
+    localStorage.setItem(
+        "notifications",
+        JSON.stringify(notifications)
+    );
+
+    document.getElementById("notificationSuccess").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Notification Added Successfully!</h3>
+            <p><strong>Title:</strong> ${notification.title}</p>
+            <p><strong>Type:</strong> ${notification.type}</p>
+            <p><strong>Priority:</strong> ${notification.priority}</p>
+        </div>
+    `;
+
+    document.querySelector("#notifications form").reset();
+
+    displayNotifications();
+}
+
+
+function displayNotifications() {
+
+    let notificationList =
+        document.getElementById("notificationList");
+
+    if (!notificationList) return;
+
+    if (notifications.length === 0) {
+        notificationList.innerHTML = `
+            <div class="error-message">
+                No notifications available yet.
+            </div>
+        `;
+        return;
+    }
+
+    notificationList.innerHTML = `
+        <h3>🔔 Registered Notifications</h3>
+
+        <p>
+            Total Notifications:
+            <strong>${notifications.length}</strong>
+        </p>
+    `;
+
+    notifications.forEach(function(notification) {
+
+        notificationList.innerHTML += `
+            <div class="record-item">
+
+                <h3>🔔 ${notification.title}</h3>
+
+                <p>
+                    <strong>Type:</strong>
+                    ${notification.type}
+                </p>
+
+                <p>
+                    <strong>Message:</strong>
+                    ${notification.message}
+                </p>
+
+                <p>
+                    <strong>Priority:</strong>
+                    ${notification.priority}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${notification.date}
+                </p>
+
+                <button onclick="editNotification(${notification.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteNotification(${notification.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editNotification(id) {
+
+    let notification = notifications.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!notification) return;
+
+    let newTitle = prompt(
+        "Enter Notification Title:",
+        notification.title
+    );
+
+    if (newTitle === null) return;
+
+    let newType = prompt(
+        "Enter Notification Type:",
+        notification.type
+    );
+
+    if (newType === null) return;
+
+    let newMessage = prompt(
+        "Enter Message:",
+        notification.message
+    );
+
+    if (newMessage === null) return;
+
+    let newPriority = prompt(
+        "Enter Priority (High / Medium / Low):",
+        notification.priority
+    );
+
+    if (newPriority === null) return;
+
+    notification.title = newTitle.trim();
+    notification.type = newType.trim();
+    notification.message = newMessage.trim();
+    notification.priority = newPriority.trim();
+
+    localStorage.setItem(
+        "notifications",
+        JSON.stringify(notifications)
+    );
+
+    displayNotifications();
+
+    alert("✅ Notification updated successfully!");
+}
+
+
+function deleteNotification(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this notification?"
+    );
+
+    if (!confirmDelete) return;
+
+    notifications = notifications.filter(function(notification) {
+        return notification.id !== id;
+    });
+
+    localStorage.setItem(
+        "notifications",
+        JSON.stringify(notifications)
+    );
+
+    displayNotifications();
+
+    alert("🗑️ Notification deleted successfully!");
 }
