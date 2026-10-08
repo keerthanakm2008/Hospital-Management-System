@@ -25,6 +25,7 @@
     <a href="#buildings">Buildings</a>
     <a href="#emergency">Emergency</a>
     <a href="#billing">Billing</a>
+    <a href="#lab">Lab Tests</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -761,6 +762,91 @@
         <h2>💰 Billing Records</h2>
 
         <div id="billingList"></div>
+
+    </div>
+
+</section>
+    <!-- LABORATORY MANAGEMENT -->
+
+<section id="lab" class="section">
+
+    <div class="section-title">
+        <span>LABORATORY MANAGEMENT</span>
+        <h2>Laboratory & Lab Tests</h2>
+        <p>Manage patient laboratory tests and test results easily.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h2>🧪 Add Lab Test</h2>
+
+        <form onsubmit="addLabTest(event)">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text"
+                           id="labPatientName"
+                           placeholder="Enter patient name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Test Name</label>
+                    <select id="labTestName" required>
+                        <option value="">Select Test</option>
+                        <option>Blood Test</option>
+                        <option>Urine Test</option>
+                        <option>X-Ray</option>
+                        <option>ECG</option>
+                        <option>Blood Sugar Test</option>
+                        <option>COVID-19 Test</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Test Result</label>
+                    <input type="text"
+                           id="labResult"
+                           placeholder="Enter test result"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Lab Technician</label>
+                    <input type="text"
+                           id="labTechnician"
+                           placeholder="Enter technician name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Test Status</label>
+                    <select id="labStatus" required>
+                        <option value="">Select Status</option>
+                        <option>Pending</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="primary-btn">
+                🧪 Add Lab Test
+            </button>
+
+        </form>
+
+        <div id="labMessage"></div>
+
+    </div>
+
+    <div class="records-card">
+
+        <h2>🧪 Laboratory Records</h2>
+
+        <div id="labList"></div>
 
     </div>
 
