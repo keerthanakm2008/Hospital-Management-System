@@ -7,6 +7,8 @@ let bills = JSON.parse(localStorage.getItem("bills")) || [];
 let labTests = JSON.parse(localStorage.getItem("labTests")) || [];
 let bloodStocks = JSON.parse(localStorage.getItem("bloodStocks")) || [];
 let departments = JSON.parse(localStorage.getItem("departments")) || [];
+let staffMembers =
+    JSON.parse(localStorage.getItem("staffMembers")) || [];
 
 if (beds.length === 0) {
 
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     displayLabTests();
     displayBloodStocks();
     displayDepartments();
+    displayStaff();
 });
 
 
@@ -2224,4 +2227,208 @@ function deleteDepartment(id) {
     displayDepartments();
 
     alert("🗑️ Department deleted successfully!");
+}
+function addStaff(event) {
+    event.preventDefault();
+
+    let name =
+        document.getElementById("staffName").value.trim();
+
+    let role =
+        document.getElementById("staffRole").value;
+
+    let department =
+        document.getElementById("staffDepartment").value.trim();
+
+    let phone =
+        document.getElementById("staffPhone").value.trim();
+
+    let shift =
+        document.getElementById("staffShift").value;
+
+    if (!name || !role || !department || !phone || !shift) {
+        document.getElementById("staffMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all staff details.
+            </div>
+        `;
+        return;
+    }
+
+    let staff = {
+        id: Date.now(),
+        name: name,
+        role: role,
+        department: department,
+        phone: phone,
+        shift: shift
+    };
+
+    staffMembers.push(staff);
+
+    localStorage.setItem(
+        "staffMembers",
+        JSON.stringify(staffMembers)
+    );
+
+    document.getElementById("staffMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Staff Added Successfully!</h3>
+            <p><strong>Name:</strong> ${staff.name}</p>
+            <p><strong>Role:</strong> ${staff.role}</p>
+            <p><strong>Department:</strong> ${staff.department}</p>
+            <p><strong>Shift:</strong> ${staff.shift}</p>
+        </div>
+    `;
+
+    document.querySelector("#staff form").reset();
+
+    displayStaff();
+}
+
+
+function displayStaff() {
+
+    let staffList =
+        document.getElementById("staffList");
+
+    if (!staffList) return;
+
+    if (staffMembers.length === 0) {
+        staffList.innerHTML = `
+            <div class="error-message">
+                No staff records available yet.
+            </div>
+        `;
+        return;
+    }
+
+    staffList.innerHTML = `
+        <h3>👩‍⚕️ Registered Staff</h3>
+        <p>Total Staff:
+            <strong>${staffMembers.length}</strong>
+        </p>
+    `;
+
+    staffMembers.forEach(function(staff) {
+
+        staffList.innerHTML += `
+            <div class="record-item">
+
+                <h3>👩‍⚕️ ${staff.name}</h3>
+
+                <p>
+                    <strong>Role:</strong>
+                    ${staff.role}
+                </p>
+
+                <p>
+                    <strong>Department:</strong>
+                    ${staff.department}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${staff.phone}
+                </p>
+
+                <p>
+                    <strong>Shift:</strong>
+                    ${staff.shift}
+                </p>
+
+                <button onclick="editStaff(${staff.id})">
+                    ✏️ Edit
+                </button>
+
+                <button onclick="deleteStaff(${staff.id})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+        `;
+    });
+}
+
+
+function editStaff(id) {
+
+    let staff = staffMembers.find(function(item) {
+        return item.id === id;
+    });
+
+    if (!staff) return;
+
+    let newName = prompt(
+        "Enter Staff Name:",
+        staff.name
+    );
+
+    if (newName === null) return;
+
+    let newRole = prompt(
+        "Enter Role:",
+        staff.role
+    );
+
+    if (newRole === null) return;
+
+    let newDepartment = prompt(
+        "Enter Department:",
+        staff.department
+    );
+
+    if (newDepartment === null) return;
+
+    let newPhone = prompt(
+        "Enter Phone Number:",
+        staff.phone
+    );
+
+    if (newPhone === null) return;
+
+    let newShift = prompt(
+        "Enter Shift (Morning / Afternoon / Night):",
+        staff.shift
+    );
+
+    if (newShift === null) return;
+
+    staff.name = newName.trim();
+    staff.role = newRole.trim();
+    staff.department = newDepartment.trim();
+    staff.phone = newPhone.trim();
+    staff.shift = newShift.trim();
+
+    localStorage.setItem(
+        "staffMembers",
+        JSON.stringify(staffMembers)
+    );
+
+    displayStaff();
+
+    alert("✅ Staff details updated successfully!");
+}
+
+
+function deleteStaff(id) {
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this staff record?"
+    );
+
+    if (!confirmDelete) return;
+
+    staffMembers = staffMembers.filter(function(staff) {
+        return staff.id !== id;
+    });
+
+    localStorage.setItem(
+        "staffMembers",
+        JSON.stringify(staffMembers)
+    );
+
+    displayStaff();
+
+    alert("🗑️ Staff record deleted successfully!");
 }
