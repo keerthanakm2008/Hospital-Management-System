@@ -480,3 +480,218 @@ function updateDashboard() {
     if (recordCount)
         recordCount.textContent = patients.length;
 }
+/* ================= BED MANAGEMENT ================= */
+
+function loadBedOptions() {
+
+    let bedNumber = document.getElementById("bedNumber");
+
+    if (!bedNumber) return;
+
+    bedNumber.innerHTML = `
+        <option value="">Choose Bed</option>
+    `;
+
+    beds.forEach(function (bed) {
+
+        if (bed.status === "Available") {
+
+            bedNumber.innerHTML += `
+                <option value="${bed.number}">
+                    ${bed.number}
+                </option>
+            `;
+
+        }
+
+    });
+}
+
+
+/* ================= ASSIGN BED ================= */
+
+function assignBed(event) {
+
+    event.preventDefault();
+
+    let patientName =
+        document.getElementById("bedPatientName").value.trim();
+
+    let bedNumber =
+        document.getElementById("bedNumber").value;
+
+    let ward =
+        document.getElementById("bedWard").value;
+
+    if (!patientName || !bedNumber || !ward) {
+
+        document.getElementById("bedMessage").innerHTML = `
+            <div class="error-message">
+                Please fill in all bed details.
+            </div>
+        `;
+
+        return;
+    }
+
+    let bed = beds.find(function (b) {
+        return b.number === bedNumber;
+    });
+
+    if (!bed) return;
+
+    bed.status = "Occupied";
+    bed.patient = patientName;
+    bed.ward = ward;
+
+    localStorage.setItem(
+        "beds",
+        JSON.stringify(beds)
+    );
+
+    document.getElementById("bedMessage").innerHTML = `
+        <div class="success-message">
+            <h3>✅ Bed Assigned Successfully!</h3>
+            <p><strong>Patient:</strong> ${patientName}</p>
+            <p><strong>Bed:</strong> ${bedNumber}</p>
+            <p><strong>Ward:</strong> ${ward}</p>
+        </div>
+    `;
+
+    document.querySelector("#beds form").reset();
+
+    loadBedOptions();
+    displayBeds();
+    updateBedDashboard();
+}
+
+
+/* ================= DISPLAY BEDS ================= */
+
+function displayBeds() {
+
+    let bedList =
+        document.getElementById("bedList");
+
+    if (!bedList) return;
+
+    bedList.innerHTML = "";
+
+    beds.forEach(function (bed) {
+
+        let statusClass =
+            bed.status === "Available"
+                ? "bed-available"
+                : "bed-occupied";
+
+        bedList.innerHTML += `
+
+            <div class="bed-item ${statusClass}">
+
+                <div class="bed-icon">🛏️</div>
+
+                <div class="bed-info">
+
+                    <h3>${bed.number}</h3>
+
+                    <p>
+                        <strong>Ward:</strong>
+                        ${bed.ward || "Not Assigned"}
+                    </p>
+
+                    <p>
+                        <strong>Patient:</strong>
+                        ${bed.patient || "None"}
+                    </p>
+
+                    <span class="bed-status">
+                        ${bed.status}
+                    </span>
+
+                </div>
+
+                ${
+                    bed.status === "Occupied"
+                    ?
+                    `<button
+                        class="release-btn"
+                        onclick="releaseBed('${bed.number}')">
+                        🔓 Release Bed
+                    </button>`
+                    :
+                    ""
+                }
+
+            </div>
+
+        `;
+
+    });
+}
+
+
+/* ================= RELEASE BED ================= */
+
+function releaseBed(bedNumber) {
+
+    let confirmRelease = confirm(
+        "Are you sure you want to release this bed?"
+    );
+
+    if (!confirmRelease) return;
+
+    let bed = beds.find(function (b) {
+        return b.number === bedNumber;
+    });
+
+    if (!bed) return;
+
+    bed.status = "Available";
+    bed.patient = "";
+    bed.ward = "";
+
+    localStorage.setItem(
+        "beds",
+        JSON.stringify(beds)
+    );
+
+    loadBedOptions();
+    displayBeds();
+    updateBedDashboard();
+
+    alert("✅ Bed released successfully!");
+}
+
+
+/* ================= BED DASHBOARD ================= */
+
+function updateBedDashboard() {
+
+    let totalBeds =
+        document.getElementById("totalBeds");
+
+    let availableBeds =
+        document.getElementById("availableBeds");
+
+    let occupiedBeds =
+        document.getElementById("occupiedBeds");
+
+    let available =
+        beds.filter(function (bed) {
+            return bed.status === "Available";
+        }).length;
+
+    let occupied =
+        beds.filter(function (bed) {
+            return bed.status === "Occupied";
+        }).length;
+
+    if (totalBeds)
+        totalBeds.textContent = beds.length;
+
+    if (availableBeds)
+        availableBeds.textContent = available;
+
+    if (occupiedBeds)
+        occupiedBeds.textContent = occupied;
+}
