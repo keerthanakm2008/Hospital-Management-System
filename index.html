@@ -21,6 +21,7 @@
     <a href="#appointment">Appointments</a>
     <a href="#records">Records</a>
     <a href="#medicines">Medicines</a>
+    <a href="#prescription">Prescription</a>
     <a href="#beds">Beds</a>
     <a href="#buildings">Buildings</a>
     <a href="#emergency">Emergency</a>
@@ -509,6 +510,79 @@
         <div id="bedList"></div>
 
     </div>
+
+</section>
+<!-- DOCTOR PRESCRIPTION --><section id="prescription" class="section"><div class="section-title">
+    <span>DOCTOR PRESCRIPTION</span>
+    <h2>Medicine Prescription</h2>
+    <p>Record medicines prescribed by the doctor.</p>
+</div>
+
+<div class="form-card">
+
+    <form onsubmit="addPrescription(event)">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text"
+                       id="prescriptionPatient"
+                       placeholder="Enter patient name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Doctor</label>
+                <select id="prescriptionDoctor" required>
+                    <option value="">Choose Doctor</option>
+                    <option>Dr. Arun</option>
+                    <option>Dr. Priya</option>
+                    <option>Dr. Kumar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Medicine Name</label>
+                <input type="text"
+                       id="prescriptionMedicine"
+                       placeholder="Enter prescribed medicine"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number"
+                       id="prescriptionQuantity"
+                       min="1"
+                       placeholder="Enter quantity"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Prescription Notes</label>
+                <input type="text"
+                       id="prescriptionNotes"
+                       placeholder="Enter doctor's instructions"
+                       required>
+            </div>
+
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Save Prescription
+        </button>
+
+    </form>
+
+    <div id="prescriptionMessage"></div>
+
+</div>
+
+<div class="records-card">
+    <h2>Prescription Records</h2>
+    <div id="prescriptionList"></div>
+</div>
 
 </section>
     <!-- BUILDING MANAGEMENT -->
