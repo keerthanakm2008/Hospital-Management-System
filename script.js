@@ -3267,74 +3267,8 @@ const hospitalData = {
     }
 };
 
-/* ================= DOCTOR PRESCRIPTION ================= */
 
-let prescriptions =
-    JSON.parse(localStorage.getItem("prescriptions")) || [];
-
-function addPrescription(event) {
-    event.preventDefault();
-
-    const patient = document
-        .getElementById("prescriptionPatient")
-        .value.trim();
-
-    const doctor = document
-        .getElementById("prescriptionDoctor")
-        .value;
-
-    const medicine = document
-        .getElementById("prescriptionMedicine")
-        .value.trim();
-
-    const quantity = Number(
-        document.getElementById("prescriptionQuantity").value
-    );
-
-    const notes = document
-        .getElementById("prescriptionNotes")
-        .value.trim();
-
-    if (!patient || !doctor || !medicine ||
-        quantity < 1 || !Number.isInteger(quantity) || !notes) {
-        document.getElementById("prescriptionMessage").innerHTML =
-            `<p class="error-message">
-                Please enter valid prescription details.
-            </p>`;
-        return;
-    }
-
-    const prescription = {
-        id: Date.now(),
-        patient: patient,
-        doctor: doctor,
-        medicine: medicine,
-        quantity: quantity,
-        notes: notes,
-        date: new Date().toLocaleDateString()
-    };
-
-    prescriptions.push(prescription);
-
-    localStorage.setItem(
-        "prescriptions",
-        JSON.stringify(prescriptions)
-    );
-
-    document.getElementById("prescriptionMessage").innerHTML =
-        `<div class="success-message">
-            <h3>Prescription Saved Successfully!</h3>
-            <p>Patient: ${prescription.patient}</p>
-            <p>Doctor: ${prescription.doctor}</p>
-        </div>`;
-
-    document.querySelector(
-        "#prescription form"
-    ).reset();
-
-    displayPrescriptions();
-}
-
+    
 function displayPrescriptions() {
     const list = document.getElementById("prescriptionList");
 
@@ -3355,10 +3289,16 @@ function displayPrescriptions() {
                 <p><strong>Quantity:</strong> ${p.quantity}</p>
                 <p><strong>Instructions:</strong> ${p.notes}</p>
                 <p><strong>Date:</strong> ${p.date}</p>
+
+                <button type="button"
+                    onclick="checkPrescriptionStock(${p.id})">
+                    Check Pharmacy Stock
+                </button>
             </div>
         `;
     }).join("");
 }
+
 
 
 
