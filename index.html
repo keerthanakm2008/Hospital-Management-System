@@ -21,7 +21,6 @@
     <a href="#appointment">Appointments</a>
     <a href="#records">Records</a>
     <a href="#medicines">Medicines</a>
-    <a href="#hospitals">Hospitals</a>
     <a href="#beds">Beds</a>
     <a href="#buildings">Buildings</a>
     <a href="#emergency">Emergency</a>
@@ -34,6 +33,7 @@
     <a href="#notifications">Notifications</a>
     <a href="#pharmacy">Pharmacy Stock</a>
     <a href="#discharge">Discharge</a>
+    <a href="#hospitals">Hospitals</a>
     <a href="#contact">Contact</a>
     <a href="login.html" class="login-btn">Login</a>
 </nav>
@@ -1443,6 +1443,29 @@
     </div>
 
 </section>
+<!-- Other existing website sections -->
+
+<!-- Multiple Hospital Selection -->
+<section id="hospitals">
+    <h2>Available Hospitals</h2>
+    <p>Select a hospital to view its demo details.</p>
+
+    <select id="hospitalSelect" onchange="showHospital()">
+        <option value="">-- Select Hospital --</option>
+        <option value="apollo">Apollo Hospitals</option>
+        <option value="kauvery">Kauvery Hospital</option>
+        <option value="miot">MIOT International</option>
+        <option value="fortis">Fortis Hospital</option>
+        <option value="government">Government General Hospital</option>
+    </select>
+
+    <div id="hospitalDetails">
+        <p>Please select a hospital.</p>
+    </div>
+</section>
+
+</body>
+</html>
 
 <!-- CONTACT -->
 
