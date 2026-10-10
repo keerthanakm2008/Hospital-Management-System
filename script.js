@@ -3228,3 +3228,61 @@ function deleteDischarge(id) {
 
     alert("🗑️ Discharge record deleted successfully!");
 }
+
+const hospitalData = {
+    apollo: {
+        name: "Apollo Hospitals",
+        type: "Multispeciality Hospital",
+        location: "Demo location - Chennai",
+        departments: "Cardiology, Orthopedics, General Medicine"
+    },
+
+    kauvery: {
+        name: "Kauvery Hospital",
+        type: "Multispeciality Hospital",
+        location: "Demo location - Chennai",
+        departments: "Cardiology, Neurology, General Medicine"
+    },
+
+    miot: {
+        name: "MIOT International",
+        type: "Multispeciality Hospital",
+        location: "Demo location - Chennai",
+        departments: "Orthopedics, Cardiology, Neurology"
+    },
+
+    fortis: {
+        name: "Fortis Hospital",
+        type: "Multispeciality Hospital",
+        location: "Demo location - Chennai",
+        departments: "Cardiology, Neurology, General Medicine"
+    },
+
+    government: {
+        name: "Government General Hospital",
+        type: "Government Hospital",
+        location: "Demo location - Chennai",
+        departments: "General Medicine, Surgery, Emergency Care"
+    }
+};
+
+function showHospital() {
+    const selected = document.getElementById("hospitalSelect").value;
+    const details = document.getElementById("hospitalDetails");
+
+    if (!selected) {
+        details.innerHTML = "<p>Please select a hospital.</p>";
+        return;
+    }
+
+    const hospital = hospitalData[selected];
+
+    details.innerHTML = `
+        <h3>${hospital.name}</h3>
+        <p><strong>Type:</strong> ${hospital.type}</p>
+        <p><strong>Location:</strong> ${hospital.location}</p>
+        <p><strong>Departments:</strong> ${hospital.departments}</p>
+        <p><em>Demo information for educational use.</em></p>
+    `;
+}
+
